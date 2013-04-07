@@ -1,9 +1,42 @@
 <div class="span6">
-<form name="senderForm" class="form-horizontal">
-<fieldset>
 
 <!-- Form Name -->
-<legend>Mandrill Sender</legend>
+<div class="row">
+  <div class="span6">
+    <form name="setupForm" class="form-horizontal">
+      <legend>Mandrill Setup</legend>
+      <div class="control-group">
+        <label class="control-label">Mandrill API key</label>
+        <div class="controls">
+          <input id="api-key" name="api-key" type="text" placeholder="Name" class="input-xlarge" ng-model="setup.apiKey">
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label">Where do we send this?</label>
+        <div class="controls">
+          <input id="toEmail" name="toEmail" type="email"
+          placeholder="yourEmailPlease@example.com" class="input-xlarge" ng-model="setup.toEmail">
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label"></label>
+        <div class="controls">
+          <button id="check-setup" ng-click="checkSetup()" name="check" class="btn btn-primary">Check Setup</button>
+        </div>
+      </div>
+      <div ng-class="apiStatusClass">
+        {{apiStatusContent}}
+      </div>
+    </form>
+
+  </div>
+</div>
+<div class="row">
+  <div class="span6">
+
+<form name="senderForm" class="form-horizontal">
+<fieldset>
+<legend>User-facing form</legend>
 
 <!-- Text input-->
 <div class="control-group">
@@ -73,11 +106,32 @@
     <button id="send" ng-click="send()" name="send" class="btn btn-primary">Send it!</button>
   </div>
 </div>
+</div>
+</div>
 
 </fieldset>
 </form>
 </div>
 <div class="span6">
-  <legend>Raw Output:</legend>
-  <pre>{{preoutput | json}}</pre>
+  <div class="row">
+    <div class="span6">
+      <legend>Message Status:</legend>
+      <div ng-class="messageStatusClass">
+        {{messageStatusContent}}
+        <pre>{{messageStatusJson | json}}</pre>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="span6">
+      <legend>Message Text:</legend>
+      <div class="well" ng-bind-html-unsafe="messageText"></div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="span6">
+      <legend>Raw Output:</legend>
+      <pre>{{preoutput | json}}</pre>
+    </div>
+  </div>
 </div>
