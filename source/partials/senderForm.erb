@@ -1,0 +1,83 @@
+<div class="span6">
+<form name="senderForm" class="form-horizontal">
+<fieldset>
+
+<!-- Form Name -->
+<legend>Mandrill Sender</legend>
+
+<!-- Text input-->
+<div class="control-group">
+  <label class="control-label">Name</label>
+  <div class="controls">
+    <input id="name" name="name" type="text" placeholder="Name" class="input-xlarge" ng-model="sender.name">
+    
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="control-group">
+  <label class="control-label">Email</label>
+  <div class="controls">
+    <input id="email" name="email" type="email" placeholder="user@example.com" class="input-xlarge" ng-model="sender.email">
+    
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="control-group">
+  <label class="control-label">Phone Number</label>
+  <div class="controls">
+    <input id="phone" name="phone" type="text" placeholder="555-555-5555" class="input-xlarge" ng-model="sender.phone">
+    
+  </div>
+</div>
+
+<!-- Select Basic -->
+<div class="control-group">
+  <label class="control-label">How Awesome are you?</label>
+  <div class="controls">
+    <select id="how-awesome" name="how-awesome" class="input-xlarge" ng-model="sender.awesome">
+      <option>No Opinion</option>
+      <option>I kind of suck</option>
+      <option>I think I'm okay</option>
+      <option>I'm pretty cool</option>
+      <option>I'm the shit</option>
+    </select>
+  </div>
+</div>
+
+<!-- Multiple Checkboxes -->
+<div class="control-group">
+  <label class="control-label">Do you like these people?</label>
+  <div class="controls" ng-repeat="person in sender.people">
+    <label class="checkbox">
+      <input type="checkbox" name="like" value="{{person.name}}" ng-model="person.like">
+        {{person.name}}
+      </input>
+    </label>
+  </div>
+</div>
+
+<!-- Textarea -->
+<div class="control-group">
+  <label class="control-label">Anything else you want to say?</label>
+  <div class="controls">                     
+    <textarea id="some-text" rows="3" ng-model="sender.randomtext" placeholder="Like, where does cheese even come from?"></textarea>
+  </div>
+</div>
+
+<!-- Button -->
+<div class="control-group">
+  <label class="control-label"></label>
+  <div class="controls">
+    <button id="send" ng-click="send()" name="send" class="btn btn-primary">Send it!</button>
+  </div>
+</div>
+
+</fieldset>
+</form>
+</div>
+<div class="span6">
+  <legend>Raw Output:</legend>
+  <pre>{{preoutput | json}}</pre>
+</div>

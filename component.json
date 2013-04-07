@@ -1,0 +1,12 @@
+{
+  "name": "middleman",
+  "version": "0.0.0",
+  "dependencies": {
+    "jquery": "~1.9.1",
+    "normalize-scss": "~2.1.0",
+    "modernizr": "~2.6.2",
+    "universal-ie6-css": "git://github.com/malarkey/universal-ie6-css.git",
+    "angular": "~1.0.6",
+    "angular-resource": "~1.0.6"
+  }
+}
