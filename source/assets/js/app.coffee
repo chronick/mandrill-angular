@@ -111,7 +111,7 @@ SenderCtrl = ($scope, Mandrill) ->
       ),
       ((data,status,headers,config) -> 
         $scope.messageStatusClass = "alert alert-error"
-        $scope.messageStatusContent = "Hmm. Doesn't look like it went through. Here's the raw error data:"
+        $scope.messageStatusContent = "Hmm. Doesn't look like it went through. Check your API key."
         $scope.messageStatusJson = data
       )
     )
