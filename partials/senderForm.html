@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]> <html class="no-js lt-ie9"> <![endif]-->
+<html class='no-js' ng-app='sender'>
+  <head>
+    <meta charset='utf-8'>
+    <meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'>
+    <meta content='initial-scale=1.0' name='viewport'>
+    <meta content='A Static Site Generator' name='description'>
+    <meta content='' name='keywords'>
+    <title>Middleman</title>
+    <link href="/assets/css/vendor/bootstrap-2.3.1.min.css" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/assets/css/all.css" media="screen" rel="stylesheet" type="text/css" />
+    <script src="/assets/js/vendor/modernizr.js" type="text/javascript"></script>
+    <script src="/assets/js/vendor/angular.js" type="text/javascript"></script>
+    <script src="/assets/js/vendor/angular-resource.js" type="text/javascript"></script>
+    <script src="/assets/js/app.js" type="text/javascript"></script>
+  </head>
+  <body>
+    <!--[if lt IE 8]>
+      <p class="compatibility-notice">
+        Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.
+      </p>
+    <![endif]-->
+    <header></header>
+    <div class="span6">
+
+<!-- Form Name -->
+<div class="row">
+  <div class="span6">
+    <form name="setupForm" class="form-horizontal">
+      <legend>Mandrill Setup</legend>
+      <div class="control-group">
+        <label class="control-label">Mandrill API key (<a href="http://mandrill.com/signup/">?</a>)</label>
+        <div class="controls">
+          <input id="api-key" name="api-key" type="text" placeholder="Name" class="input-xlarge" ng-model="setup.apiKey" ng-required="true">
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label">Where do we send this?</label>
+        <div class="controls">
+          <input id="toEmail" name="toEmail" type="email"
+          placeholder="yourEmailPlease@example.com" class="input-xlarge" ng-model="setup.toEmail">
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label"></label>
+        <div class="controls">
+          <button id="check-setup" ng-click="checkSetup()" name="check" class="btn btn-primary">Check Setup</button>
+        </div>
+      </div>
+      <div ng-class="apiStatusClass">
+        {{apiStatusContent}}
+      </div>
+    </form>
+
+  </div>
+</div>
+<div class="row">
+  <div class="span6">
+
+<form name="senderForm" class="form-horizontal">
+<fieldset>
+<legend>User-facing form</legend>
+
+<!-- Text input-->
+<div class="control-group">
+  <label class="control-label">Name</label>
+  <div class="controls">
+    <input id="name" name="name" type="text" placeholder="Name" class="input-xlarge" ng-model="sender.name">
+    
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="control-group">
+  <label class="control-label">Email</label>
+  <div class="controls">
+    <input id="email" name="email" type="email" placeholder="user@example.com" class="input-xlarge" ng-model="sender.email">
+    
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="control-group">
+  <label class="control-label">Phone Number</label>
+  <div class="controls">
+    <input id="phone" name="phone" type="text" placeholder="555-555-5555" class="input-xlarge" ng-model="sender.phone">
+    
+  </div>
+</div>
+
+<!-- Select Basic -->
+<div class="control-group">
+  <label class="control-label">How Awesome are you?</label>
+  <div class="controls">
+    <select id="how-awesome" name="how-awesome" class="input-xlarge" ng-model="sender.awesome">
+      <option>No Opinion</option>
+      <option>I kind of suck</option>
+      <option>I think I'm okay</option>
+      <option>I'm pretty cool</option>
+      <option>I'm the shit</option>
+    </select>
+  </div>
+</div>
+
+<!-- Multiple Checkboxes -->
+<div class="control-group">
+  <label class="control-label">Do you like these people?</label>
+  <div class="controls" ng-repeat="person in sender.people">
+    <label class="checkbox">
+      <input type="checkbox" name="like" value="{{person.name}}" ng-model="person.like">
+        {{person.name}}
+      </input>
+    </label>
+  </div>
+</div>
+
+<!-- Textarea -->
+<div class="control-group">
+  <label class="control-label">Anything else you want to say?</label>
+  <div class="controls">                     
+    <textarea id="some-text" rows="3" ng-model="sender.randomtext" placeholder="Like, where does cheese even come from?"></textarea>
+  </div>
+</div>
+
+<!-- Button -->
+<div class="control-group">
+  <label class="control-label"></label>
+  <div class="controls">
+    <button id="send" ng-click="send()" name="send" class="btn btn-primary">Send it!</button>
+  </div>
+</div>
+<div ng-class="messageStatusClass">
+  {{messageStatusContent}}
+</div>
+</div>
+</div>
+
+</fieldset>
+</form>
+<div class="row">
+  <div class="span6">
+    <legend>Message Text:</legend>
+    <div class="well" ng-bind-html-unsafe="messageText"></div>
+  </div>
+</div>
+    <footer></footer>
+  </body>
+</html>
