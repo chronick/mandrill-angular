@@ -7,14 +7,23 @@ title: email form with angular and mandrill!
   <div class="row">
     <div class="span6">
       <h1>Mandrill + Angular</h1>
-      <p><%=lorem.paragraph%></p>
+      <p>This is an attempt at learning how to create client-side apps with <a href="http://www.angularjs.org">AngularJS</a> as well as figuring out how to send emails without the use of a CMS or a backend that I have to deploy myself.</p>
+      <p>The ultimate goal of this exercise for me is an attempt to see which of the three big JS MV* frameworks (<a href="http://www.backbonejs.org">Backbone</a>,<a href="http://www.angularjs.org">Angular</a>, or <a href="http://www.emberjs.com">Ember</a>) are best for progressive enhancement, that is, iteratively adding functionality to a static web page that is either bare or has some jquery code tacked on.</p>
+      <p>This implementation demonstrates the following things with Angular:
+        <ul>
+          <li>basic scaffolding</li>
+          <li>Controllers</li>
+          <li>Resources with multiple routes</li>
+          <li>Validation</li>
+        </ul>
+      </p>
+      <p>When I've finished building this with the other frameworks, I'll likely write something about my experiences.</p>
+      <p>Until then, enjoy. The code for this page can be viewed at its <a href="http://www.github.com">Github Repo.</a>I'm using <a href="http://www.middlemanapp.com">Middleman</a> to build the site itself, so if you want to hack it up, you might want a working install of that going.</p>
     </div>
     <div class="span6">
       <div ng-view>
-        <div class="span-6">
-          <div class="alert">
-            Looks like either javascript isn't turned on or the script isn't working for some reason.
-          </div>
+        <div class="alert">
+          Looks like either javascript isn't turned on or the script isn't working for some reason.
         </div>
       </div>
     </div>
