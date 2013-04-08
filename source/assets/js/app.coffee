@@ -34,8 +34,8 @@ angular.module('sender', ['mandrill'])
 SenderCtrl = ($scope, Mandrill) ->
 
   $scope.setup = {
-    apiKey: "yRET0qNVxDVroPAGntBCaA",
-    toEmail: "ndonohue@gmail.com"
+    apiKey: "", # Initialize this with your api key if you don't want to have to fill it in every time
+    toEmail: "" # same with your email
   }
 
   $scope.sender = { 
