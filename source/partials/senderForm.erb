@@ -8,7 +8,7 @@
       <div class="control-group">
         <label class="control-label">Mandrill API key</label>
         <div class="controls">
-          <input id="api-key" name="api-key" type="text" placeholder="Name" class="input-xlarge" ng-model="setup.apiKey">
+          <input id="api-key" name="api-key" type="text" placeholder="Name" class="input-xlarge" ng-model="setup.apiKey" ng-required="true">
         </div>
       </div>
       <div class="control-group">
@@ -106,32 +106,18 @@
     <button id="send" ng-click="send()" name="send" class="btn btn-primary">Send it!</button>
   </div>
 </div>
+<div ng-class="messageStatusClass">
+  {{messageStatusContent}}
+  <pre>{{messageStatusJson | json}}</pre>
+</div>
 </div>
 </div>
 
 </fieldset>
 </form>
-</div>
-<div class="span6">
-  <div class="row">
-    <div class="span6">
-      <legend>Message Status:</legend>
-      <div ng-class="messageStatusClass">
-        {{messageStatusContent}}
-        <pre>{{messageStatusJson | json}}</pre>
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="span6">
-      <legend>Message Text:</legend>
-      <div class="well" ng-bind-html-unsafe="messageText"></div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="span6">
-      <legend>Raw Output:</legend>
-      <pre>{{preoutput | json}}</pre>
-    </div>
+<div class="row">
+  <div class="span6">
+    <legend>Message Text:</legend>
+    <div class="well" ng-bind-html-unsafe="messageText"></div>
   </div>
 </div>

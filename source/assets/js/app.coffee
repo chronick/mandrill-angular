@@ -33,23 +33,10 @@ angular.module('sender', ['mandrill'])
 
 SenderCtrl = ($scope, Mandrill) ->
 
-  $scope.preoutput = ""
-
   $scope.setup = {
     apiKey: "yRET0qNVxDVroPAGntBCaA",
     toEmail: "ndonohue@gmail.com"
   }
-
-  $scope.checkSetup = () ->
-    Mandrill.ping(
-      {"key": $scope.setup.apiKey}, 
-      ((data,status,headers,config)-> 
-        $scope.apiStatusClass = "alert alert-success"
-        $scope.apiStatusContent = "API key looks good. Go ahead and fill out the rest of the form."),
-      ((data,status,headers,config)->
-        $scope.apiStatusClass = "alert alert-error"
-        $scope.apiStatusContent = "Doesn't seem to be valid.")
-    )
 
   $scope.sender = { 
     name: "",
@@ -93,12 +80,19 @@ SenderCtrl = ($scope, Mandrill) ->
     <h3>Anything Else?</h3>
     <p>#{sender.randomtext}</p>"
 
-  $scope.messageStatusClass = "alert alert-info"
-  $scope.messageStatusContent = "The message return status will be shown here when you submit the form."
-  $scope.messageStatusJson = ""
-  
+
+  $scope.checkSetup = () ->
+    Mandrill.ping(
+      {"key": $scope.setup.apiKey}, 
+      ((data,status,headers,config)-> 
+        $scope.apiStatusClass = "alert alert-success"
+        $scope.apiStatusContent = "API key looks good. Go ahead and fill out the rest of the form."),
+      ((data,status,headers,config)->
+        $scope.apiStatusClass = "alert alert-error"
+        $scope.apiStatusContent = "Doesn't seem to be valid.")
+    )
+
   $scope.send = () =>
-    $scope.preoutput = angular.copy($scope.sender, {})
     $scope.messageText = @constructMessage($scope.sender)
     Mandrill.sendMessage(
       {
@@ -112,7 +106,7 @@ SenderCtrl = ($scope, Mandrill) ->
       },
       ((data,status,headers,config) -> 
         $scope.messageStatusClass = "alert alert-success"
-        $scope.messageStatusContent = "Congratulations! The message should appear soon at #{$scope.sender.email}"
+        $scope.messageStatusContent = "Congratulations! The message should appear soon at #{$scope.setup.toEmail}"
         $scope.messageStatusJson = data
       ),
       ((data,status,headers,config) -> 
