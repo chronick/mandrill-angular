@@ -44,11 +44,11 @@ SenderCtrl = ($scope, Mandrill) ->
     phone: "",
     awesome: "No Opinion",
     people: [
-      { name: "George Clooney", like: false },
-      { name: "Bill Murray", like: false },
+      { name: "George Clooney", like: true },
+      { name: "Bill Murray", like: true },
       { name: "Paris Hilton", like: false },
       { name: "Snooki", like: false },
-      { name: "Ghandi", like: false }
+      { name: "Ghandi", like: true }
     ],
     randomtext: ""
   }
