@@ -1,15 +1,15 @@
 
 // Avoid `console` errors in browsers that lack a console
 if (!(window.console && console.log)) {
-    (function() {
-        var noop = function() {};
+    ((() => {
+        var noop = () => {};
         var methods = ['assert', 'clear', 'count', 'debug', 'dir', 'dirxml', 'error', 'exception', 'group', 'groupCollapsed', 'groupEnd', 'info', 'log', 'markTimeline', 'profile', 'profileEnd', 'markTimeline', 'table', 'time', 'timeEnd', 'timeStamp', 'trace', 'warn'];
         var length = methods.length;
         var console = window.console = {};
         while (length--) {
             console[methods[length]] = noop;
         }
-    }());
+    })());
 }
 
 // test helper object
@@ -26,7 +26,7 @@ window.TEST = {
               ],
 
   // utility methods
-  inArray: function(elem, array) {
+  inArray(elem, array) {
       if (array.indexOf) {
           return array.indexOf(elem);
       }
@@ -37,7 +37,7 @@ window.TEST = {
       }
       return -1;
   },
-  trim : function(str){
+  trim(str) {
     return str.replace(/^\s*/, "").replace(/\s*$/, "");
   }
 };

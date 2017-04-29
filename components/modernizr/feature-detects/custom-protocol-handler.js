@@ -5,6 +5,4 @@
 	Added by @benschwarz
 */
 
-Modernizr.addTest('customprotocolhandler', function () {
-    return !!navigator.registerProtocolHandler;
-});
+Modernizr.addTest('customprotocolhandler', () => !!navigator.registerProtocolHandler);

@@ -2,7 +2,7 @@
 // Should fail in Safari: http://stackoverflow.com/questions/9739955/feature-detecting-support-for-svg-filters.
 // detect by erik dahlstrom
 
-Modernizr.addTest('svgfilters', function(){
+Modernizr.addTest('svgfilters', () => {
 	var result = false;
     try {
       result = typeof SVGFEColorMatrixElement !== undefined &&

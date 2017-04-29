@@ -3,7 +3,7 @@
 // test page: jsbin.com/uzesun/
 // http://jsfiddle.net/ryanseddon/yMLTQ/6/    
 
-(function(){
+((() => {
 
 
 function getBgRepeatValue(elem){
@@ -13,7 +13,7 @@ function getBgRepeatValue(elem){
 }
   
 
-Modernizr.testStyles(' #modernizr { background-repeat: round; } ', function(elem, rule){ 
+Modernizr.testStyles(' #modernizr { background-repeat: round; } ', (elem, rule) => { 
 
   Modernizr.addTest('bgrepeatround', getBgRepeatValue(elem) == 'round');
 
@@ -21,11 +21,11 @@ Modernizr.testStyles(' #modernizr { background-repeat: round; } ', function(elem
 
 
 
-Modernizr.testStyles(' #modernizr { background-repeat: space; } ', function(elem, rule){ 
+Modernizr.testStyles(' #modernizr { background-repeat: space; } ', (elem, rule) => { 
 
   Modernizr.addTest('bgrepeatspace', getBgRepeatValue(elem) == 'space');
 
 });
 
 
-})();
+}))();

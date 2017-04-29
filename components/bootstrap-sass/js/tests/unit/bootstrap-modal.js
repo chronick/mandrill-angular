@@ -1,29 +1,29 @@
-$(function () {
+$(() => {
 
     module("bootstrap-modal")
 
-      test("should provide no conflict", function () {
+      test("should provide no conflict", () => {
         var modal = $.fn.modal.noConflict()
         ok(!$.fn.modal, 'modal was set back to undefined (org value)')
         $.fn.modal = modal
       })
 
-      test("should be defined on jquery object", function () {
+      test("should be defined on jquery object", () => {
         var div = $("<div id='modal-test'></div>")
         ok(div.modal, 'modal method is defined')
       })
 
-      test("should return element", function () {
+      test("should return element", () => {
         var div = $("<div id='modal-test'></div>")
         ok(div.modal() == div, 'document.body returned')
         $('#modal-test').remove()
       })
 
-      test("should expose defaults var for settings", function () {
+      test("should expose defaults var for settings", () => {
         ok($.fn.modal.defaults, 'default object exposed')
       })
 
-      test("should insert into dom when show method is called", function () {
+      test("should insert into dom when show method is called", () => {
         stop()
         $.support.transition = false
         $("<div id='modal-test'></div>")
@@ -35,11 +35,11 @@ $(function () {
           .modal("show")
       })
 
-      test("should fire show event", function () {
+      test("should fire show event", () => {
         stop()
         $.support.transition = false
         $("<div id='modal-test'></div>")
-          .bind("show", function () {
+          .bind("show", () => {
             ok(true, "show was called")
           })
           .bind("shown", function () {
@@ -49,22 +49,22 @@ $(function () {
           .modal("show")
       })
 
-      test("should not fire shown when default prevented", function () {
+      test("should not fire shown when default prevented", () => {
         stop()
         $.support.transition = false
         $("<div id='modal-test'></div>")
-          .bind("show", function (e) {
+          .bind("show", e => {
             e.preventDefault()
             ok(true, "show was called")
             start()
           })
-          .bind("shown", function () {
+          .bind("shown", () => {
             ok(false, "shown was called")
           })
           .modal("show")
       })
 
-      test("should hide modal when hide is called", function () {
+      test("should hide modal when hide is called", () => {
         stop()
         $.support.transition = false
 
@@ -74,7 +74,7 @@ $(function () {
             ok($('#modal-test').length, 'modal insterted into dom')
             $(this).modal("hide")
           })
-          .bind("hidden", function() {
+          .bind("hidden", () => {
             ok(!$('#modal-test').is(":visible"), 'modal hidden')
             $('#modal-test').remove()
             start()
@@ -82,17 +82,17 @@ $(function () {
           .modal("show")
       })
 
-      test("should toggle when toggle is called", function () {
+      test("should toggle when toggle is called", () => {
         stop()
         $.support.transition = false
         var div = $("<div id='modal-test'></div>")
         div
-          .bind("shown", function () {
+          .bind("shown", () => {
             ok($('#modal-test').is(":visible"), 'modal visible')
             ok($('#modal-test').length, 'modal insterted into dom')
             div.modal("toggle")
           })
-          .bind("hidden", function() {
+          .bind("hidden", () => {
             ok(!$('#modal-test').is(":visible"), 'modal hidden')
             div.remove()
             start()
@@ -100,17 +100,17 @@ $(function () {
           .modal("toggle")
       })
 
-      test("should remove from dom when click [data-dismiss=modal]", function () {
+      test("should remove from dom when click [data-dismiss=modal]", () => {
         stop()
         $.support.transition = false
         var div = $("<div id='modal-test'><span class='close' data-dismiss='modal'></span></div>")
         div
-          .bind("shown", function () {
+          .bind("shown", () => {
             ok($('#modal-test').is(":visible"), 'modal visible')
             ok($('#modal-test').length, 'modal insterted into dom')
             div.find('.close').click()
           })
-          .bind("hidden", function() {
+          .bind("hidden", () => {
             ok(!$('#modal-test').is(":visible"), 'modal hidden')
             div.remove()
             start()
@@ -118,16 +118,16 @@ $(function () {
           .modal("toggle")
       })
 
-      test("should allow modal close with 'backdrop:false'", function () {
+      test("should allow modal close with 'backdrop:false'", () => {
         stop()
         $.support.transition = false
         var div = $("<div>", { id: 'modal-test', "data-backdrop": false })
         div
-          .bind("shown", function () {
+          .bind("shown", () => {
             ok($('#modal-test').is(":visible"), 'modal visible')
             div.modal("hide")
           })
-          .bind("hidden", function() {
+          .bind("hidden", () => {
             ok(!$('#modal-test').is(":visible"), 'modal hidden')
             div.remove()
             start()

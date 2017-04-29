@@ -6,11 +6,12 @@
 // code.google.com/p/graphics-detect/source/browse/js/detect.js
 
 
-(function(){
-
+((() => {
     if (!Modernizr.webgl) return;
 
-    var canvas, ctx, exts;
+    var canvas;
+    var ctx;
+    var exts;
 
     try {
         canvas  = document.createElement('canvas');
@@ -39,4 +40,4 @@
     }
 
     canvas = undefined;
-})();
+}))();

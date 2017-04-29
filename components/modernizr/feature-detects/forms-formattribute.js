@@ -1,17 +1,17 @@
 // Detects whether input form="form_id" is available on the platform
 // E.g. IE 10 (and below), don't support this
-Modernizr.addTest("formattribute", function() {
-	var form = document.createElement("form"),
-		input = document.createElement("input"),
-		div = document.createElement("div"),
-		id = "formtest"+(new Date().getTime()),
-		attr,
-		bool = false;
+Modernizr.addTest("formattribute", () => {
+    var form = document.createElement("form");
+    var input = document.createElement("input");
+    var div = document.createElement("div");
+    var id = "formtest"+(new Date().getTime());
+    var attr;
+    var bool = false;
 
-		form.id = id;
+    form.id = id;
 
-	//IE6/7 confuses the form idl attribute and the form content attribute
-	if(document.createAttribute){
+    //IE6/7 confuses the form idl attribute and the form content attribute
+    if(document.createAttribute){
 		attr = document.createAttribute("form");
 		attr.nodeValue = id;
 		input.setAttributeNode(attr);
@@ -25,5 +25,5 @@ Modernizr.addTest("formattribute", function() {
 		div.parentNode.removeChild(div);
 	}
 
-	return bool;
+    return bool;
 });

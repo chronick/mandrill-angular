@@ -18,7 +18,7 @@
  * ========================================================== */
 
 
-!function ($) {
+!($ => {
 
   "use strict"; // jshint ;_;
 
@@ -26,35 +26,35 @@
   /* CSS TRANSITION SUPPORT (http://www.modernizr.com/)
    * ======================================================= */
 
-  $(function () {
+  $(() => {
 
-    $.support.transition = (function () {
+    $.support.transition = ((() => {
 
-      var transitionEnd = (function () {
+      var transitionEnd = ((() => {
+        var el = document.createElement('bootstrap');
 
-        var el = document.createElement('bootstrap')
-          , transEndEventNames = {
+        var transEndEventNames = {
                'WebkitTransition' : 'webkitTransitionEnd'
             ,  'MozTransition'    : 'transitionend'
             ,  'OTransition'      : 'oTransitionEnd otransitionend'
             ,  'transition'       : 'transitionend'
-            }
-          , name
+            };
+
+        var name;
 
         for (name in transEndEventNames){
           if (el.style[name] !== undefined) {
             return transEndEventNames[name]
           }
         }
-
-      }())
+      })())
 
       return transitionEnd && {
         end: transitionEnd
       }
 
-    })()
+    }))()
 
   })
 
-}(window.jQuery);
+})(window.jQuery);

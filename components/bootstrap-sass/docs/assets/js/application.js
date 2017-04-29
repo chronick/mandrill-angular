@@ -2,22 +2,21 @@
 // IT'S ALL JUST JUNK FOR OUR DOCS!
 // ++++++++++++++++++++++++++++++++++++++++++
 
-!function ($) {
+!($ => {
 
-  $(function(){
-
+  $(() => {
     var $window = $(window)
 
     // Disable certain links in docs
-    $('section [href^=#]').click(function (e) {
+    $('section [href^=#]').click(e => {
       e.preventDefault()
     })
 
     // side bar
-    setTimeout(function () {
+    setTimeout(() => {
       $('.bs-docs-sidenav').affix({
         offset: {
-          top: function () { return $window.width() <= 980 ? 290 : 210 }
+          top() { return $window.width() <= 980 ? 290 : 210 }
         , bottom: 270
         }
       })
@@ -28,8 +27,8 @@
 
     // add-ons
     $('.add-on :checkbox').on('click', function () {
-      var $this = $(this)
-        , method = $this.attr('checked') ? 'addClass' : 'removeClass'
+      var $this = $(this);
+      var method = $this.attr('checked') ? 'addClass' : 'removeClass';
       $(this).parents('.add-on')[method]('active')
     })
 
@@ -37,7 +36,7 @@
     if ($('#gridSystem').length) {
       $('#gridSystem').tooltip({
           selector: '.show-grid > [class*="span"]'
-        , title: function () { return $(this).width() + 'px' }
+        , title() { return $(this).width() + 'px' }
       })
     }
 
@@ -52,7 +51,7 @@
     // popover demo
     $("a[data-toggle=popover]")
       .popover()
-      .click(function(e) {
+      .click(e => {
         e.preventDefault()
       })
 
@@ -61,7 +60,7 @@
       .click(function () {
         var btn = $(this)
         btn.button('loading')
-        setTimeout(function () {
+        setTimeout(() => {
           btn.button('reset')
         }, 3000)
       })
@@ -70,65 +69,68 @@
     $('#myCarousel').carousel()
 
     // javascript build logic
-    var inputsComponent = $("#components.download input")
-      , inputsPlugin = $("#plugins.download input")
-      , inputsVariables = $("#variables.download input")
+    var inputsComponent = $("#components.download input");
+
+    var inputsPlugin = $("#plugins.download input");
+    var inputsVariables = $("#variables.download input");
 
     // toggle all plugin checkboxes
-    $('#components.download .toggle-all').on('click', function (e) {
+    $('#components.download .toggle-all').on('click', e => {
       e.preventDefault()
       inputsComponent.attr('checked', !inputsComponent.is(':checked'))
     })
 
-    $('#plugins.download .toggle-all').on('click', function (e) {
+    $('#plugins.download .toggle-all').on('click', e => {
       e.preventDefault()
       inputsPlugin.attr('checked', !inputsPlugin.is(':checked'))
     })
 
-    $('#variables.download .toggle-all').on('click', function (e) {
+    $('#variables.download .toggle-all').on('click', e => {
       e.preventDefault()
       inputsVariables.val('')
     })
 
     // request built javascript
-    $('.download-btn .btn').on('click', function () {
-
+    $('.download-btn .btn').on('click', () => {
       var css = $("#components.download input:checked")
             .map(function () { return this.value })
-            .toArray()
-        , js = $("#plugins.download input:checked")
-            .map(function () { return this.value })
-            .toArray()
-        , vars = {}
-        , img = ['glyphicons-halflings.png', 'glyphicons-halflings-white.png']
+            .toArray();
 
-    $("#variables.download input")
-      .each(function () {
-        $(this).val() && (vars[ $(this).prev().text() ] = $(this).val())
-      })
+      var js = $("#plugins.download input:checked")
+            .map(function () { return this.value })
+            .toArray();
+
+      var vars = {};
+      var img = ['glyphicons-halflings.png', 'glyphicons-halflings-white.png'];
+
+      $("#variables.download input")
+        .each(function () {
+          $(this).val() && (vars[ $(this).prev().text() ] = $(this).val())
+        })
 
       $.ajax({
         type: 'POST'
       , url: /\?dev/.test(window.location) ? 'http://localhost:3000' : 'http://bootstrap.herokuapp.com'
       , dataType: 'jsonpi'
       , params: {
-          js: js
-        , css: css
-        , vars: vars
-        , img: img
+          js
+        , css
+        , vars
+        , img
       }
       })
     })
   })
 
 // Modified from the original jsonpi https://github.com/benvinegar/jquery-jsonpi
-$.ajaxTransport('jsonpi', function(opts, originalOptions, jqXHR) {
+$.ajaxTransport('jsonpi', (opts, originalOptions, jqXHR) => {
   var url = opts.url;
 
   return {
-    send: function(_, completeCallback) {
-      var name = 'jQuery_iframe_' + jQuery.now()
-        , iframe, form
+    send(_, completeCallback) {
+      var name = 'jQuery_iframe_' + jQuery.now();
+      var iframe;
+      var form;
 
       iframe = $('<iframe>')
         .attr('name', name)
@@ -139,7 +141,7 @@ $.ajaxTransport('jsonpi', function(opts, originalOptions, jqXHR) {
         .attr('action', url)
         .attr('target', name)
 
-      $.each(opts.params, function(k, v) {
+      $.each(opts.params, (k, v) => {
 
         $('<input>')
           .attr('type', 'hidden')
@@ -150,7 +152,7 @@ $.ajaxTransport('jsonpi', function(opts, originalOptions, jqXHR) {
 
       form.appendTo('body').submit()
     }
-  }
+  };
 })
 
-}(window.jQuery)
+})(window.jQuery)

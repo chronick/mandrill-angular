@@ -4,8 +4,8 @@
 // developer.mozilla.org/en/DOM/window.navigator.mozBattery
 // By: Paul Sayre
 
-Modernizr.addTest('lowbattery', function () {
-	var minLevel = 0.20,
-		battery = Modernizr.prefixed('battery', navigator);
-	return !!(battery && !battery.charging && battery.level <= minLevel);
+Modernizr.addTest('lowbattery', () => {
+    var minLevel = 0.20;
+    var battery = Modernizr.prefixed('battery', navigator);
+    return !!(battery && !battery.charging && battery.level <= minLevel);
 });

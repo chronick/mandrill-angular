@@ -4,31 +4,27 @@
 //    - Modernizr.inputtypes.numer && Modernizr.formvalidation (browser supports rangeOverflow, typeMismatch etc. for type=number)
 //    - Modernizr.input.required && Modernizr.formvalidation (browser supports valueMissing)
 //
-(function(document, Modernizr){
+(((document, Modernizr) => {
 
 
 Modernizr.formvalidationapi = false;
 Modernizr.formvalidationmessage = false;
 
-Modernizr.addTest('formvalidation', function(){
+Modernizr.addTest('formvalidation', () => {
     var form = document.createElement('form');
     if ( !('checkValidity' in form) ) {
         return false;
     }
-    var body = document.body,
-
-    html = document.documentElement,
-
-    bodyFaked = false,
-
-    invaildFired = false,
-
-    input;
+    var body = document.body;
+    var html = document.documentElement;
+    var bodyFaked = false;
+    var invaildFired = false;
+    var input;
 
     Modernizr.formvalidationapi = true;
 
     // Prevent form from being submitted
-    form.onsubmit = function(e) {
+    form.onsubmit = e => {
         //Opera does not validate form, if submit is prevented
         if ( !window.opera ) {
             e.preventDefault();
@@ -57,10 +53,10 @@ Modernizr.addTest('formvalidation', function(){
 
     body.appendChild(form);
 
-    input = form.getElementsByTagName('input')[0];	
+    input = form.getElementsByTagName('input')[0];
 
     // Record whether "invalid" event is fired
-    input.oninvalid = function(e) {
+    input.oninvalid = e => {
         invaildFired = true;
         e.preventDefault();
         e.stopPropagation();
@@ -80,4 +76,4 @@ Modernizr.addTest('formvalidation', function(){
 });
 
 
-})(document, window.Modernizr);
+}))(document, window.Modernizr);

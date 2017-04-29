@@ -18,7 +18,7 @@
  * =========================================================== */
 
 
-!function ($) {
+!($ => {
 
   "use strict"; // jshint ;_;
 
@@ -38,40 +38,40 @@
 
     constructor: Popover
 
-  , setContent: function () {
-      var $tip = this.tip()
-        , title = this.getTitle()
-        , content = this.getContent()
+  , setContent() {
+    var $tip = this.tip();
+    var title = this.getTitle();
+    var content = this.getContent();
 
-      $tip.find('.popover-title')[this.options.html ? 'html' : 'text'](title)
-      $tip.find('.popover-content')[this.options.html ? 'html' : 'text'](content)
+    $tip.find('.popover-title')[this.options.html ? 'html' : 'text'](title)
+    $tip.find('.popover-content')[this.options.html ? 'html' : 'text'](content)
 
-      $tip.removeClass('fade top bottom left right in')
-    }
+    $tip.removeClass('fade top bottom left right in')
+  }
 
-  , hasContent: function () {
+  , hasContent() {
       return this.getTitle() || this.getContent()
     }
 
-  , getContent: function () {
-      var content
-        , $e = this.$element
-        , o = this.options
+  , getContent() {
+    var content;
+    var $e = this.$element;
+    var o = this.options;
 
-      content = (typeof o.content == 'function' ? o.content.call($e[0]) :  o.content)
-        || $e.attr('data-content')
+    content = (typeof o.content == 'function' ? o.content.call($e[0]) :  o.content)
+      || $e.attr('data-content')
 
-      return content
-    }
+    return content
+  }
 
-  , tip: function () {
+  , tip() {
       if (!this.$tip) {
         this.$tip = $(this.options.template)
       }
       return this.$tip
     }
 
-  , destroy: function () {
+  , destroy() {
       this.hide().$element.off('.' + this.type).removeData(this.type)
     }
 
@@ -85,12 +85,12 @@
 
   $.fn.popover = function (option) {
     return this.each(function () {
-      var $this = $(this)
-        , data = $this.data('popover')
-        , options = typeof option == 'object' && option
+      var $this = $(this);
+      var data = $this.data('popover');
+      var options = typeof option == 'object' && option;
       if (!data) $this.data('popover', (data = new Popover(this, options)))
       if (typeof option == 'string') data[option]()
-    })
+    });
   }
 
   $.fn.popover.Constructor = Popover
@@ -111,4 +111,4 @@
     return this
   }
 
-}(window.jQuery);
+})(window.jQuery);

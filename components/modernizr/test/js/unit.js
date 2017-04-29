@@ -1,9 +1,9 @@
-QUnit.begin = function() {
+QUnit.begin = () => {
 	console.log("Starting test suite");
 	console.log("================================================\n");
 };
 
-QUnit.moduleDone = function(opts) {
+QUnit.moduleDone = opts => {
 	if(opts.failed === 0) {
 		console.log("\u2714 All tests passed in '"+opts.name+"' module");
 	} else {
@@ -11,26 +11,26 @@ QUnit.moduleDone = function(opts) {
 	}
 };
 
-QUnit.done = function(opts) {
+QUnit.done = opts => {
 	console.log("\n================================================");
 	console.log("Tests completed in "+opts.runtime+" milliseconds");
 	console.log(opts.passed + " tests of "+opts.total+" passed, "+opts.failed+" failed.");
 };
 
 module('Basics', {
-    setup:function() {
+    setup() {
     },
-    teardown:function() {
+    teardown() {
     }
 });
 
-test("globals set up", function() {
+test("globals set up", () => {
 
 	ok(window.Modernizr, 'global modernizr object created');
 
 });
 
-test("bind is implemented", function() {
+test("bind is implemented", () => {
 
   ok(Function.prototype.bind, 'bind is a member of Function.prototype');
 
@@ -75,7 +75,7 @@ test("bind is implemented", function() {
   ok("prototype" in F, '"prototype" in F');
 
   // The object passed to bind as 'this' must be callable.
-  raises(function(){
+  raises(() => {
     Function.bind.call(undefined);
   });
 
@@ -90,12 +90,12 @@ test("bind is implemented", function() {
 
 
 
-test("document.documentElement is valid and correct",1, function() {
+test("document.documentElement is valid and correct",1, () => {
 	equal(document.documentElement,document.getElementsByTagName('html')[0]);
 });
 
 
-test("no-js class is gone.", function() {
+test("no-js class is gone.", () => {
 
 	ok(!/(?:^|\s)no-js(?:^|\s)/.test(document.documentElement.className),
 	   'no-js class is gone');
@@ -118,7 +118,7 @@ test("no-js class is gone.", function() {
 	}
 });
 
-test('html shim worked', function(){
+test('html shim worked', () => {
   expect(2);
 
   // the exact test we use in the script
@@ -134,19 +134,18 @@ test('html shim worked', function(){
 
 
 module('Modernizr classes and bools', {
-    setup:function() {
+    setup() {
     },
-    teardown:function() {
+    teardown() {
     }
 });
 
 
-test('html classes are looking good',function(){
-
+test('html classes are looking good',() => {
   var classes = TEST.trim(document.documentElement.className).split(/\s+/);
 
-  var modprops = Object.keys(Modernizr),
-      newprops = modprops;
+  var modprops = Object.keys(Modernizr);
+  var newprops = modprops;
 
   // decrement for the properties that are private
   for (var i = -1, len = TEST.privates.length; ++i < len; ){
@@ -156,14 +155,14 @@ test('html classes are looking good',function(){
   }
 
   // decrement for the non-boolean objects
-//  for (var i = -1, len = TEST.inputs.length; ++i < len; ){
-//    if (Modernizr[TEST.inputs[i]] != undefined) newprops--;
-//  }
+  //  for (var i = -1, len = TEST.inputs.length; ++i < len; ){
+  //    if (Modernizr[TEST.inputs[i]] != undefined) newprops--;
+  //  }
 
   // TODO decrement for the extraclasses
 
   // decrement for deprecated ones.
-  $.each( TEST.deprecated, function(key, val){
+  $.each( TEST.deprecated, (key, val) => {
     newprops.splice(  TEST.inArray(item, newprops), 1);
   });
 
@@ -200,22 +199,20 @@ test('html classes are looking good',function(){
 
   // Remove fake no-js classes before test.
   var docElClass = document.documentElement.className;
-  $.each(['\\+no-js', 'no-js-', 'i-has-no-js'], function(i, fakeClass) {
+  $.each(['\\+no-js', 'no-js-', 'i-has-no-js'], (i, fakeClass) => {
     docElClass = docElClass.replace(new RegExp('(^|\\s)' + fakeClass + '(\\s|$)', 'g'), '$1$2');
   });
   equal(/[^\s]no-/.test(docElClass), false, 'whitespace between all classes.');
-
-
 })
 
 
-test('Modernizr properties are looking good',function(){
+test('Modernizr properties are looking good',() => {
+  var count  = 0; // due to forms-placeholder.js test
 
-  var count  = 0,
-      nobool = TEST.API.concat(TEST.inputs)
-                       .concat(TEST.audvid)
-                       .concat(TEST.privates)
-                       .concat(['textarea']); // due to forms-placeholder.js test
+  var nobool = TEST.API.concat(TEST.inputs)
+                   .concat(TEST.audvid)
+                   .concat(TEST.privates)
+                   .concat(['textarea']);
 
   for (var prop in window.Modernizr){
     if (Modernizr.hasOwnProperty(prop)){
@@ -233,7 +230,7 @@ test('Modernizr properties are looking good',function(){
 
 
 
-test('Modernizr.audio and Modernizr.video',function(){
+test('Modernizr.audio and Modernizr.video',() => {
 
   for (var i = -1, len = TEST.audvid.length; ++i < len;){
     var prop = TEST.audvid[i];
@@ -255,7 +252,7 @@ test('Modernizr.audio and Modernizr.video',function(){
 });
 
 
-test('Modernizr results match expected values',function(){
+test('Modernizr results match expected values',() => {
 
   // i'm bringing over a few tests from inside Modernizr.js
   equal(!!document.createElement('canvas').getContext,Modernizr.canvas,'canvas test consistent');
@@ -267,32 +264,24 @@ test('Modernizr results match expected values',function(){
 
 
 module('Modernizr\'s API methods', {
-    setup:function() {
+    setup() {
     },
-    teardown:function() {
+    teardown() {
     }
 });
 
-test('Modernizr.addTest()',22,function(){
+test('Modernizr.addTest()',22,() => {
 
   var docEl = document.documentElement;
 
 
-  Modernizr.addTest('testtrue',function(){
-    return true;
-  });
+  Modernizr.addTest('testtrue',() => true);
 
-  Modernizr.addTest('testtruthy',function(){
-    return 100;
-  });
+  Modernizr.addTest('testtruthy',() => 100);
 
-  Modernizr.addTest('testfalse',function(){
-    return false;
-  });
+  Modernizr.addTest('testfalse',() => false);
 
-  Modernizr.addTest('testfalsy',function(){
-    return undefined;
-  });
+  Modernizr.addTest('testfalsy',() => undefined);
 
   ok(docEl.className.indexOf(' testtrue') >= 0,'positive class added');
   equal(Modernizr.testtrue,true,'positive prop added');
@@ -308,9 +297,7 @@ test('Modernizr.addTest()',22,function(){
 
 
 
-  Modernizr.addTest('testcamelCase',function(){
-     return true;
-   });
+  Modernizr.addTest('testcamelCase',() => true);
 
   ok(docEl.className.indexOf(' testcamelCase') === -1,
      'camelCase test name toLowerCase()\'d');
@@ -358,7 +345,7 @@ test('Modernizr.addTest()',22,function(){
   Modernizr
     .addTest('testchainone', true)
     .addTest({ testchaintwo: true })
-    .addTest('testchainthree', function(){ return true; });
+    .addTest('testchainthree', () => true);
 
   ok( Modernizr.testchainone == Modernizr.testchaintwo == Modernizr.testchainthree, 'addTest is chainable');
 
@@ -369,39 +356,40 @@ test('Modernizr.addTest()',22,function(){
 
 
 
-test('Modernizr.mq: media query testing',function(){
+test('Modernizr.mq: media query testing',() => {
 
   var $html = $('html');
   $.mobile = {};
 
   // from jquery mobile
 
-  $.mobile.media = (function() {
-  	// TODO: use window.matchMedia once at least one UA implements it
-  	var cache = {},
-  		testDiv = $( "<div id='jquery-mediatest'>" ),
-  		fakeBody = $( "<body>" ).append( testDiv );
+  $.mobile.media = ((() => {
+    // TODO: use window.matchMedia once at least one UA implements it
+    var cache = {};
 
-  	return function( query ) {
+    var testDiv = $( "<div id='jquery-mediatest'>" );
+    var fakeBody = $( "<body>" ).append( testDiv );
+
+    return query => {
   		if ( !( query in cache ) ) {
-  			var styleBlock = document.createElement('style'),
-          		cssrule = "@media " + query + " { #jquery-mediatest { position:absolute; } }";
-  	        //must set type for IE!
-  	        styleBlock.type = "text/css";
-  	        if (styleBlock.styleSheet){
-  	          styleBlock.styleSheet.cssText = cssrule;
-  	        }
-  	        else {
-  	          styleBlock.appendChild(document.createTextNode(cssrule));
-  	        }
+          var styleBlock = document.createElement('style');
+          var cssrule = "@media " + query + " { #jquery-mediatest { position:absolute; } }";
+          //must set type for IE!
+          styleBlock.type = "text/css";
+          if (styleBlock.styleSheet){
+            styleBlock.styleSheet.cssText = cssrule;
+          }
+          else {
+            styleBlock.appendChild(document.createTextNode(cssrule));
+          }
 
-  			$html.prepend( fakeBody ).prepend( styleBlock );
-  			cache[ query ] = testDiv.css( "position" ) === "absolute";
-  			fakeBody.add( styleBlock ).remove();
-  		}
+          $html.prepend( fakeBody ).prepend( styleBlock );
+          cache[ query ] = testDiv.css( "position" ) === "absolute";
+          fakeBody.add( styleBlock ).remove();
+        }
   		return cache[ query ];
   	};
-  })();
+  }))();
 
 
   ok(Modernizr.mq,'Modernizr.mq() doesn\' freak out.');
@@ -416,7 +404,7 @@ test('Modernizr.mq: media query testing',function(){
 
 
 
-test('Modernizr.hasEvent()',function(){
+test('Modernizr.hasEvent()',() => {
 
   ok(typeof Modernizr.hasEvent == 'function','Modernizr.hasEvent() is a function');
 
@@ -437,13 +425,13 @@ test('Modernizr.hasEvent()',function(){
 
 
 
-test('Modernizr.testStyles()',function(){
+test('Modernizr.testStyles()',() => {
 
   equal(typeof Modernizr.testStyles, 'function','Modernizr.testStyles() is a function');
 
   var style = '#modernizr{ width: 9px; height: 4px; font-size: 0; color: papayawhip; }';
 
-  Modernizr.testStyles(style, function(elem, rule){
+  Modernizr.testStyles(style, (elem, rule) => {
       equal(style, rule, 'rule passsed back matches what i gave it.')
       equal(elem.offsetWidth, 9, 'width was set through the style');
       equal(elem.offsetHeight, 4, 'height was set through the style');
@@ -453,7 +441,7 @@ test('Modernizr.testStyles()',function(){
 });
 
 
-test('Modernizr._[properties]',function(){
+test('Modernizr._[properties]',() => {
 
   equal(6, Modernizr._prefixes.length, 'Modernizr._prefixes has 6 items');
 
@@ -461,7 +449,7 @@ test('Modernizr._[properties]',function(){
 
 });
 
-test('Modernizr.testProp()',function(){
+test('Modernizr.testProp()',() => {
 
   equal(true, Modernizr.testProp('margin'), 'Everyone supports margin');
 
@@ -477,7 +465,7 @@ test('Modernizr.testProp()',function(){
 
 
 
-test('Modernizr.testAllProps()',function(){
+test('Modernizr.testAllProps()',() => {
 
   equal(true, Modernizr.testAllProps('margin'), 'Everyone supports margin');
 
@@ -496,14 +484,14 @@ test('Modernizr.testAllProps()',function(){
 
 
 
-test('Modernizr.prefixed() - css and DOM resolving', function(){
+test('Modernizr.prefixed() - css and DOM resolving', () => {
   // https://gist.github.com/523692
 
   function gimmePrefix(prop, obj){
-    var prefixes = ['Moz','Khtml','Webkit','O','ms'],
-        domPrefixes = ['moz','khtml','webkit','o','ms'],
-        elem     = document.createElement('div'),
-        upper    = prop.charAt(0).toUpperCase() + prop.slice(1);
+    var prefixes = ['Moz','Khtml','Webkit','O','ms'];
+    var domPrefixes = ['moz','khtml','webkit','o','ms'];
+    var elem     = document.createElement('div');
+    var upper    = prop.charAt(0).toUpperCase() + prop.slice(1);
 
     if(!obj) {
       if (prop in elem.style)
@@ -551,7 +539,7 @@ test('Modernizr.prefixed() - css and DOM resolving', function(){
 
 
 // FIXME: so a few of these are whitelisting for webkit. i'd like to improve that.
-test('Modernizr.prefixed autobind', function(){
+test('Modernizr.prefixed autobind', () => {
 
   var rAFName;
 

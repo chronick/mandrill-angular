@@ -1,17 +1,16 @@
 // Animated PNG
 // http://en.wikipedia.org/wiki/APNG
 // By Addy Osmani
-(function () {
-
+((() => {
     if (!Modernizr.canvas) return false;
-    
-    var image = new Image(),
-        canvas = document.createElement('canvas'),
-        ctx = canvas.getContext('2d');
+
+    var image = new Image();
+    var canvas = document.createElement('canvas');
+    var ctx = canvas.getContext('2d');
 
 
-    image.onload = function () {
-        Modernizr.addTest('apng', function () {
+    image.onload = () => {
+        Modernizr.addTest('apng', () => {
             if (typeof canvas.getContext == 'undefined') {
                 return false;
             } else {
@@ -22,5 +21,4 @@
     };
 
     image.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACGFjVEwAAAABAAAAAcMq2TYAAAANSURBVAiZY2BgYPgPAAEEAQB9ssjfAAAAGmZjVEwAAAAAAAAAAQAAAAEAAAAAAAAAAAD6A+gBAbNU+2sAAAARZmRBVAAAAAEImWNgYGBgAAAABQAB6MzFdgAAAABJRU5ErkJggg==";
-
-}());
+})());

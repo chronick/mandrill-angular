@@ -1,10 +1,10 @@
 #!/usr/bin/env node
-var hogan = require('hogan.js')
-  , fs    = require('fs')
-  , prod  = process.argv[2] == 'production'
-  , title = 'Bootstrap'
-
-var layout, pages
+var hogan = require('hogan.js');
+var fs    = require('fs');
+var prod  = process.argv[2] == 'production';
+var title = 'Bootstrap';
+var layout;
+var pages;
 
 // compile layout template
 layout = fs.readFileSync(__dirname + '/../templates/layout.mustache', 'utf-8')
@@ -14,12 +14,11 @@ layout = hogan.compile(layout, { sectionTags: [{o:'_i', c:'i'}] })
 pages = fs.readdirSync(__dirname + '/../templates/pages')
 
 // iterate over pages
-pages.forEach(function (name) {
-
+pages.forEach(name => {
   if (!name.match(/\.mustache$/)) return
 
-  var page = fs.readFileSync(__dirname  + '/../templates/pages/' + name, 'utf-8')
-    , context = {}
+  var page = fs.readFileSync(__dirname  + '/../templates/pages/' + name, 'utf-8');
+  var context = {};
 
   context[name.replace(/\.mustache$/, '')] = 'active'
   context._i = true
@@ -27,7 +26,7 @@ pages.forEach(function (name) {
   context.title = name
     .replace(/\.mustache/, '')
     .replace(/\-.*/, '')
-    .replace(/(.)/, function ($1) { return $1.toUpperCase() })
+    .replace(/(.)/, $1 => $1.toUpperCase())
 
   if (context.title == 'Index') {
     context.title = title

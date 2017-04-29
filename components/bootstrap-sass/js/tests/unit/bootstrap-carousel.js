@@ -1,41 +1,41 @@
-$(function () {
+$(() => {
 
     module("bootstrap-carousel")
 
-      test("should provide no conflict", function () {
+      test("should provide no conflict", () => {
         var carousel = $.fn.carousel.noConflict()
         ok(!$.fn.carousel, 'carousel was set back to undefined (org value)')
         $.fn.carousel = carousel
       })
 
-      test("should be defined on jquery object", function () {
+      test("should be defined on jquery object", () => {
         ok($(document.body).carousel, 'carousel method is defined')
       })
 
-      test("should return element", function () {
+      test("should return element", () => {
         ok($(document.body).carousel()[0] == document.body, 'document.body returned')
       })
 
-      test("should not fire sliden when slide is prevented", function () {
+      test("should not fire sliden when slide is prevented", () => {
         $.support.transition = false
         stop()
         $('<div class="carousel"/>')
-          .bind('slide', function (e) {
+          .bind('slide', e => {
             e.preventDefault();
             ok(true);
             start();
           })
-          .bind('slid', function () {
+          .bind('slid', () => {
             ok(false);
           })
           .carousel('next')
       })
 
-      test("should fire slide event with direction", function () {
+      test("should fire slide event with direction", () => {
         var template = '<div id="myCarousel" class="carousel slide"><div class="carousel-inner"><div class="item active"><img alt=""><div class="carousel-caption"><h4>{{_i}}First Thumbnail label{{/i}}</h4><p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p></div></div><div class="item"><img alt=""><div class="carousel-caption"><h4>{{_i}}Second Thumbnail label{{/i}}</h4><p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p></div></div><div class="item"><img alt=""><div class="carousel-caption"><h4>{{_i}}Third Thumbnail label{{/i}}</h4><p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p></div></div></div><a class="left carousel-control" href="#myCarousel" data-slide="prev">&lsaquo;</a><a class="right carousel-control" href="#myCarousel" data-slide="next">&rsaquo;</a></div>'
         $.support.transition = false
         stop()
-        $(template).on('slide', function (e) {
+        $(template).on('slide', e => {
           e.preventDefault()
           ok(e.direction)
           ok(e.direction === 'right' || e.direction === 'left')
@@ -43,12 +43,12 @@ $(function () {
         }).carousel('next')
       })
 
-      test("should fire slide event with relatedTarget", function () {
+      test("should fire slide event with relatedTarget", () => {
         var template = '<div id="myCarousel" class="carousel slide"><div class="carousel-inner"><div class="item active"><img alt=""><div class="carousel-caption"><h4>{{_i}}First Thumbnail label{{/i}}</h4><p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p></div></div><div class="item"><img alt=""><div class="carousel-caption"><h4>{{_i}}Second Thumbnail label{{/i}}</h4><p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p></div></div><div class="item"><img alt=""><div class="carousel-caption"><h4>{{_i}}Third Thumbnail label{{/i}}</h4><p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p></div></div></div><a class="left carousel-control" href="#myCarousel" data-slide="prev">&lsaquo;</a><a class="right carousel-control" href="#myCarousel" data-slide="next">&rsaquo;</a></div>'
         $.support.transition = false
         stop()
         $(template)
-          .on('slide', function (e) {
+          .on('slide', e => {
             e.preventDefault();
             ok(e.relatedTarget);
             ok($(e.relatedTarget).hasClass('item'));
@@ -57,7 +57,7 @@ $(function () {
           .carousel('next')
       })
 
-      test("should set interval from data attribute", 3,function () {
+      test("should set interval from data attribute", 3,() => {
         var template = $('<div id="myCarousel" class="carousel slide"> <div class="carousel-inner"> <div class="item active"> <img alt=""> <div class="carousel-caption"> <h4>{{_i}}First Thumbnail label{{/i}}</h4> <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p> </div> </div> <div class="item"> <img alt=""> <div class="carousel-caption"> <h4>{{_i}}Second Thumbnail label{{/i}}</h4> <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p> </div> </div> <div class="item"> <img alt=""> <div class="carousel-caption"> <h4>{{_i}}Third Thumbnail label{{/i}}</h4> <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p> </div> </div> </div> <a class="left carousel-control" href="#myCarousel" data-slide="prev">&lsaquo;</a> <a class="right carousel-control" href="#myCarousel" data-slide="next">&rsaquo;</a> </div>');
         template.attr("data-interval", 1814);
 

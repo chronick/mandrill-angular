@@ -1,11 +1,11 @@
 
 
-var myscript = document.createElement('script'),
-    ref = document.getElementsByTagName('script')[0];
+var myscript = document.createElement('script');
+var ref = document.getElementsByTagName('script')[0];
 
 myscript.src = 'http://caniuse.com/jsonp.php?callback=caniusecb';
 
-setTimeout(function(){
+setTimeout(() => {
   ref.parentNode.insertBefore(myscript, ref);
 }, 100);
 
@@ -48,21 +48,21 @@ var map = {
   postmessage : 'x-doc-messaging'
 };
 
-window.caniusecb = function(scriptdata) {
-
+window.caniusecb = scriptdata => {
   window.doo = scriptdata;
 
   // quit if JSONSelect didn't make it.
   if (!window.JSONSelect) return;
 
-  var testdata     = scriptdata.data,
+  var testdata     = scriptdata.data;
 
-      // parse the current UA with uaparser
-      ua           = uaparse(navigator.userAgent),
+  var // parse the current UA with uaparser
+  ua           = uaparse(navigator.userAgent);
 
-      // match the UA from uaparser into the browser used by caniuse
-      browserKey   = JSONSelect.match('.agents .browser', scriptdata).indexOf(ua.family),
-      currBrowser  = Object.keys(scriptdata.agents)[browserKey];
+  var // match the UA from uaparser into the browser used by caniuse
+  browserKey   = JSONSelect.match('.agents .browser', scriptdata).indexOf(ua.family);
+
+  var currBrowser  = Object.keys(scriptdata.agents)[browserKey];
 
   // So Phantom doesn't kill the caniuse.com matching exit out as it's useless anyway within PhantomJS
   if(navigator.userAgent.indexOf("PhantomJS") != -1) {
@@ -110,17 +110,16 @@ window.caniusecb = function(scriptdata) {
 
 
   module('caniuse.com data matches', {
-      setup:function() {
+      setup() {
       },
-      teardown:function() {
+      teardown() {
       }
   });
 
 
-  test("we match caniuse data", function() {
+  test("we match caniuse data", () => {
 
     for (var feature in Modernizr){
-
       var ciufeatname = map[feature];
 
       if (ciufeatname === undefined) continue;
@@ -133,16 +132,17 @@ window.caniusecb = function(scriptdata) {
       var browserResults = ciufeatdata.stats[currBrowser];
 
       // let's get our versions in order..
-      var minorver   = ua.minor &&                                  // caniuse doesn't use two digit minors
-                       ua.minor.toString().replace(/(\d)\d$/,'$1'), // but opera does.
+      var // but opera does.
+      minorver   = ua.minor &&                                  // caniuse doesn't use two digit minors
+                       ua.minor.toString().replace(/(\d)\d$/,'$1');
 
-          majorminor = (ua.major + '.' + minorver)
-                          // opera gets grouped in some cases by caniuse
-                          .replace(/(9\.(6|5))/ , ua.family == 'opera' ? '9.5-9.6'   : "$1")
-                          .replace(/(10\.(0|1))/, ua.family == 'opera' ? '10.0-10.1' : "$1"),
+      var majorminor = (ua.major + '.' + minorver)
+                      // opera gets grouped in some cases by caniuse
+                      .replace(/(9\.(6|5))/ , ua.family == 'opera' ? '9.5-9.6'   : "$1")
+                      .replace(/(10\.(0|1))/, ua.family == 'opera' ? '10.0-10.1' : "$1");
 
-          mmResult   = browserResults[majorminor],
-          mResult    = browserResults[ua.major];
+      var mmResult   = browserResults[majorminor];
+      var mResult    = browserResults[ua.major];
 
 
       // check it against the major.minor: eg. FF 3.6
@@ -152,7 +152,7 @@ window.caniusecb = function(scriptdata) {
         mmResult = mmResult.replace(' x','');
 
         // match it against our data.
-        testify({ feature     : feature
+        testify({ feature
                 , ciufeature  : ciufeatname
                 , result      : Modernizr[feature]
                 , ciuresult   : mmResult
@@ -172,7 +172,7 @@ window.caniusecb = function(scriptdata) {
         // data ends w/ ` x` if its still prefixed in the imp
         mResult = mResult.replace(' x','');
 
-        testify({ feature     : feature
+        testify({ feature
                 , ciufeature  : ciufeatname
                 , result      : Modernizr[feature]
                 , ciuresult   : mResult
@@ -182,10 +182,7 @@ window.caniusecb = function(scriptdata) {
 
 
       }
-
     } // for in loop
 
   }); // eo test()
-
-
 }; // eo caniusecallback()
