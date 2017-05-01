@@ -5,25 +5,24 @@
 
 // The test will potentially add garbage to console.
 
-(function(){
+((() => {
   try {
-
     // we're avoiding using Modernizr._domPrefixes as the prefix capitalization on
     // these guys are notoriously peculiar.
-    var BlobBuilder = window.MozBlobBuilder || window.WebKitBlobBuilder || window.MSBlobBuilder || window.OBlobBuilder || window.BlobBuilder,
-        URL         = window.MozURL || window.webkitURL || window.MSURL || window.OURL || window.URL;
+    var BlobBuilder = window.MozBlobBuilder || window.WebKitBlobBuilder || window.MSBlobBuilder || window.OBlobBuilder || window.BlobBuilder;
 
-    var data    = 'Modernizr',
-        bb      = new BlobBuilder();
+    var URL         = window.MozURL || window.webkitURL || window.MSURL || window.OURL || window.URL;
+    var data    = 'Modernizr';
+    var bb      = new BlobBuilder();
 
     bb.append('this.onmessage=function(e){postMessage(e.data)}');
 
-    var url     = URL.createObjectURL(bb.getBlob()),
-        worker  = new Worker(url);
+    var url     = URL.createObjectURL(bb.getBlob());
+    var worker  = new Worker(url);
 
     bb = null;
 
-    worker.onmessage = function(e) {
+    worker.onmessage = e => {
       worker.terminate();
       URL.revokeObjectURL(url);
       Modernizr.addTest('blobworkers', data === e.data);
@@ -31,18 +30,17 @@
     };
 
     // Just in case...
-    worker.onerror = function() {
+    worker.onerror = () => {
       Modernizr.addTest('blobworkers', false);
       worker = null;
     };
 
-    setTimeout(function() {
+    setTimeout(() => {
         Modernizr.addTest('blobworkers', false);
     }, 200);
 
     worker.postMessage(data);
-
   } catch (e) {
     Modernizr.addTest('blobworkers', false);
   }
-}());
+})());

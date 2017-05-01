@@ -18,88 +18,88 @@
  * ============================================================ */
 
 
-!function ($) {
-
+!($ => {
   "use strict"; // jshint ;_;
 
 
- /* DROPDOWN CLASS DEFINITION
-  * ========================= */
+  /* DROPDOWN CLASS DEFINITION
+   * ========================= */
 
-  var toggle = '[data-toggle=dropdown]'
-    , Dropdown = function (element) {
+  var toggle = '[data-toggle=dropdown]';
+
+  var Dropdown = function (element) {
         var $el = $(element).on('click.dropdown.data-api', this.toggle)
-        $('html').on('click.dropdown.data-api', function () {
+        $('html').on('click.dropdown.data-api', () => {
           $el.parent().removeClass('open')
         })
-      }
+      };
 
   Dropdown.prototype = {
 
     constructor: Dropdown
 
-  , toggle: function (e) {
-      var $this = $(this)
-        , $parent
-        , isActive
+  , toggle(e) {
+    var $this = $(this);
+    var $parent;
+    var isActive;
 
-      if ($this.is('.disabled, :disabled')) return
+    if ($this.is('.disabled, :disabled')) return
 
-      $parent = getParent($this)
+    $parent = getParent($this)
 
-      isActive = $parent.hasClass('open')
+    isActive = $parent.hasClass('open')
 
-      clearMenus()
+    clearMenus()
 
-      if (!isActive) {
-        $parent.toggleClass('open')
-      }
-
-      $this.focus()
-
-      return false
+    if (!isActive) {
+      $parent.toggleClass('open')
     }
 
-  , keydown: function (e) {
-      var $this
-        , $items
-        , $active
-        , $parent
-        , isActive
-        , index
+    $this.focus()
 
-      if (!/(38|40|27)/.test(e.keyCode)) return
+    return false
+  }
 
-      $this = $(this)
+  , keydown(e) {
+    var $this;
+    var $items;
+    var $active;
+    var $parent;
+    var isActive;
+    var index;
 
-      e.preventDefault()
-      e.stopPropagation()
+    if (!/(38|40|27)/.test(e.keyCode)) return
 
-      if ($this.is('.disabled, :disabled')) return
+    $this = $(this)
 
-      $parent = getParent($this)
+    e.preventDefault()
+    e.stopPropagation()
 
-      isActive = $parent.hasClass('open')
+    if ($this.is('.disabled, :disabled')) return
 
-      if (!isActive || (isActive && e.keyCode == 27)) {
-        if (e.which == 27) $parent.find(toggle).focus()
-        return $this.click()
-      }
+    $parent = getParent($this)
 
-      $items = $('[role=menu] li:not(.divider):visible a', $parent)
+    isActive = $parent.hasClass('open')
 
-      if (!$items.length) return
-
-      index = $items.index($items.filter(':focus'))
-
-      if (e.keyCode == 38 && index > 0) index--                                        // up
-      if (e.keyCode == 40 && index < $items.length - 1) index++                        // down
-      if (!~index) index = 0
-
-      $items
-        .eq(index)
-        .focus()
+    if (!isActive || (isActive && e.keyCode == 27)) {
+      if (e.which == 27) $parent.find(toggle).focus()
+      return $this.click()
     }
+
+    $items = $('[role=menu] li:not(.divider):visible a', $parent)
+
+    if (!$items.length) return
+
+    index = $items.index($items.filter(':focus'))
+
+    if (e.keyCode == 38 && index > 0) index--                                        // up
+    if (e.keyCode == 40 && index < $items.length - 1) index++                        // down
+    if (!~index) index = 0
+
+    $items
+      .eq(index)
+      .focus()
+  }
 
   }
 
@@ -110,8 +110,8 @@
   }
 
   function getParent($this) {
-    var selector = $this.attr('data-target')
-      , $parent
+    var selector = $this.attr('data-target');
+    var $parent;
 
     if (!selector) {
       selector = $this.attr('href')
@@ -133,18 +133,18 @@
 
   $.fn.dropdown = function (option) {
     return this.each(function () {
-      var $this = $(this)
-        , data = $this.data('dropdown')
+      var $this = $(this);
+      var data = $this.data('dropdown');
       if (!data) $this.data('dropdown', (data = new Dropdown(this)))
       if (typeof option == 'string') data[option].call($this)
-    })
+    });
   }
 
   $.fn.dropdown.Constructor = Dropdown
 
 
- /* DROPDOWN NO CONFLICT
-  * ==================== */
+  /* DROPDOWN NO CONFLICT
+   * ==================== */
 
   $.fn.dropdown.noConflict = function () {
     $.fn.dropdown = old
@@ -157,9 +157,8 @@
 
   $(document)
     .on('click.dropdown.data-api', clearMenus)
-    .on('click.dropdown.data-api', '.dropdown form', function (e) { e.stopPropagation() })
-    .on('click.dropdown-menu', function (e) { e.stopPropagation() })
+    .on('click.dropdown.data-api', '.dropdown form', e => { e.stopPropagation() })
+    .on('click.dropdown-menu', e => { e.stopPropagation() })
     .on('click.dropdown.data-api'  , toggle, Dropdown.prototype.toggle)
     .on('keydown.dropdown.data-api', toggle + ', [role=menu]' , Dropdown.prototype.keydown)
-
-}(window.jQuery);
+})(window.jQuery);

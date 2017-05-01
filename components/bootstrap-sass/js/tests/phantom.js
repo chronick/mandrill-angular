@@ -2,10 +2,13 @@
 // Adapted from Modernizr
 
 function waitFor(testFx, onReady, timeOutMillis) {
-  var maxtimeOutMillis = timeOutMillis ? timeOutMillis :  5001 //< Default Max Timout is 5s
-    , start = new Date().getTime()
-    , condition = false
-    , interval = setInterval(function () {
+  var //< Default Max Timout is 5s
+  maxtimeOutMillis = timeOutMillis ? timeOutMillis :  5001; //< repeat check every 100ms
+
+  var start = new Date().getTime();
+  var condition = false;
+
+  var interval = setInterval(() => {
         if ((new Date().getTime() - start < maxtimeOutMillis) && !condition) {
           // If not time-out yet and condition not yet fulfilled
           condition = (typeof(testFx) === "string" ? eval(testFx) : testFx()) //< defensive code
@@ -20,7 +23,7 @@ function waitFor(testFx, onReady, timeOutMillis) {
             clearInterval(interval) //< Stop this interval
           }
         }
-    }, 100) //< repeat check every 100ms
+    }, 100);
 }
 
 
@@ -32,25 +35,23 @@ if (phantom.args.length === 0 || phantom.args.length > 2) {
 var page = new WebPage()
 
 // Route "console.log()" calls from within the Page context to the main Phantom context (i.e. current "this")
-page.onConsoleMessage = function(msg) {
+page.onConsoleMessage = msg => {
   console.log(msg)
 };
 
-page.open(phantom.args[0], function(status){
+page.open(phantom.args[0], status => {
   if (status !== "success") {
     console.log("Unable to access network")
     phantom.exit()
   } else {
-    waitFor(function(){
-      return page.evaluate(function(){
-        var el = document.getElementById('qunit-testresult')
-        if (el && el.innerText.match('completed')) {
-          return true
-        }
-        return false
-      })
-    }, function(){
-      var failedNum = page.evaluate(function(){
+    waitFor(() => page.evaluate(() => {
+      var el = document.getElementById('qunit-testresult')
+      if (el && el.innerText.match('completed')) {
+        return true
+      }
+      return false
+    }), () => {
+      var failedNum = page.evaluate(() => {
         var el = document.getElementById('qunit-testresult')
         try {
           return el.getElementsByClassName('failed')[0].innerHTML

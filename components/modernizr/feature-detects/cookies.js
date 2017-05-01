@@ -2,7 +2,7 @@
 // by tauren
 // https://github.com/Modernizr/Modernizr/issues/191
 
-Modernizr.addTest('cookies', function () {
+Modernizr.addTest('cookies', () => {
   // Quick test if browser has cookieEnabled host property
   if (navigator.cookieEnabled) return true;
   // Create cookie

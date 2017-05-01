@@ -11,25 +11,28 @@
 * @param timeOutMillis the max amount of time to wait. If not specified, 3 sec is used.
 */
 function waitFor(testFx, onReady, timeOutMillis) {
-    var maxtimeOutMillis = timeOutMillis ? timeOutMillis : 3001, //< Default Max Timout is 3s
-        start = new Date().getTime(),
-        condition = false,
-        interval = setInterval(function() {
-            if ( (new Date().getTime() - start < maxtimeOutMillis) && !condition ) {
-                // If not time-out yet and condition not yet fulfilled
-                condition = (typeof(testFx) === "string" ? eval(testFx) : testFx()); //< defensive code
+    var //< Default Max Timout is 3s
+    maxtimeOutMillis = timeOutMillis ? timeOutMillis : 3001; //< repeat check every 250ms
+
+    var start = new Date().getTime();
+    var condition = false;
+
+    var interval = setInterval(() => {
+        if ( (new Date().getTime() - start < maxtimeOutMillis) && !condition ) {
+            // If not time-out yet and condition not yet fulfilled
+            condition = (typeof(testFx) === "string" ? eval(testFx) : testFx()); //< defensive code
+        } else {
+            if(!condition) {
+                // If condition still not fulfilled (timeout but condition is 'false')
+                console.log("'waitFor()' timeout");
+                phantom.exit(1);
             } else {
-                if(!condition) {
-                    // If condition still not fulfilled (timeout but condition is 'false')
-                    console.log("'waitFor()' timeout");
-                    phantom.exit(1);
-                } else {
-                    // Condition fulfilled (timeout and/or condition is 'true')
-                    typeof(onReady) === "string" ? eval(onReady) : onReady(); //< Do what it's supposed to do once the condition is fulfilled
-                    clearInterval(interval); //< Stop this interval
-                }
+                // Condition fulfilled (timeout and/or condition is 'true')
+                typeof(onReady) === "string" ? eval(onReady) : onReady(); //< Do what it's supposed to do once the condition is fulfilled
+                clearInterval(interval); //< Stop this interval
             }
-        }, 100); //< repeat check every 250ms
+        }
+    }, 100);
 };
 
 
@@ -41,25 +44,23 @@ if (phantom.args.length === 0 || phantom.args.length > 2) {
 var page = new WebPage();
 
 // Route "console.log()" calls from within the Page context to the main Phantom context (i.e. current "this")
-page.onConsoleMessage = function(msg) {
+page.onConsoleMessage = msg => {
     console.log(msg);
 };
 
-page.open(phantom.args[0], function(status){
+page.open(phantom.args[0], status => {
     if (status !== "success") {
         console.log("Unable to access network");
         phantom.exit();
     } else {
-        waitFor(function(){
-            return page.evaluate(function(){
-                var el = document.getElementById('qunit-testresult');
-                if (el && el.innerText.match('completed')) {
-                    return true;
-                }
-                return false;
-            });
-        }, function(){
-            var failedNum = page.evaluate(function(){
+        waitFor(() => page.evaluate(() => {
+            var el = document.getElementById('qunit-testresult');
+            if (el && el.innerText.match('completed')) {
+                return true;
+            }
+            return false;
+        }), () => {
+            var failedNum = page.evaluate(() => {
                 var el = document.getElementById('qunit-testresult');
                 try {
                     return el.getElementsByClassName('failed')[0].innerHTML;

@@ -18,7 +18,7 @@
  * ============================================================ */
 
 
-!function($){
+!($ => {
 
   "use strict"; // jshint ;_;
 
@@ -43,7 +43,7 @@
 
     constructor: Typeahead
 
-  , select: function () {
+  , select() {
       var val = this.$menu.find('.active').attr('data-value')
       this.$element
         .val(this.updater(val))
@@ -51,11 +51,11 @@
       return this.hide()
     }
 
-  , updater: function (item) {
+  , updater(item) {
       return item
     }
 
-  , show: function () {
+  , show() {
       var pos = $.extend({}, this.$element.position(), {
         height: this.$element[0].offsetHeight
       })
@@ -72,13 +72,13 @@
       return this
     }
 
-  , hide: function () {
+  , hide() {
       this.$menu.hide()
       this.shown = false
       return this
     }
 
-  , lookup: function (event) {
+  , lookup(event) {
       var items
 
       this.query = this.$element.val()
@@ -92,12 +92,10 @@
       return items ? this.process(items) : this
     }
 
-  , process: function (items) {
+  , process(items) {
       var that = this
 
-      items = $.grep(items, function (item) {
-        return that.matcher(item)
-      })
+      items = $.grep(items, item => that.matcher(item))
 
       items = this.sorter(items)
 
@@ -108,36 +106,34 @@
       return this.render(items.slice(0, this.options.items)).show()
     }
 
-  , matcher: function (item) {
+  , matcher(item) {
       return ~item.toLowerCase().indexOf(this.query.toLowerCase())
     }
 
-  , sorter: function (items) {
-      var beginswith = []
-        , caseSensitive = []
-        , caseInsensitive = []
-        , item
+  , sorter(items) {
+    var beginswith = [];
+    var caseSensitive = [];
+    var caseInsensitive = [];
+    var item;
 
-      while (item = items.shift()) {
-        if (!item.toLowerCase().indexOf(this.query.toLowerCase())) beginswith.push(item)
-        else if (~item.indexOf(this.query)) caseSensitive.push(item)
-        else caseInsensitive.push(item)
-      }
-
-      return beginswith.concat(caseSensitive, caseInsensitive)
+    while (item = items.shift()) {
+      if (!item.toLowerCase().indexOf(this.query.toLowerCase())) beginswith.push(item)
+      else if (~item.indexOf(this.query)) caseSensitive.push(item)
+      else caseInsensitive.push(item)
     }
 
-  , highlighter: function (item) {
+    return beginswith.concat(caseSensitive, caseInsensitive)
+  }
+
+  , highlighter(item) {
       var query = this.query.replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, '\\$&')
-      return item.replace(new RegExp('(' + query + ')', 'ig'), function ($1, match) {
-        return '<strong>' + match + '</strong>'
-      })
+      return item.replace(new RegExp('(' + query + ')', 'ig'), ($1, match) => '<strong>' + match + '</strong>');
     }
 
-  , render: function (items) {
+  , render(items) {
       var that = this
 
-      items = $(items).map(function (i, item) {
+      items = $(items).map((i, item) => {
         i = $(that.options.item).attr('data-value', item)
         i.find('a').html(that.highlighter(item))
         return i[0]
@@ -148,29 +144,29 @@
       return this
     }
 
-  , next: function (event) {
-      var active = this.$menu.find('.active').removeClass('active')
-        , next = active.next()
+  , next(event) {
+    var active = this.$menu.find('.active').removeClass('active');
+    var next = active.next();
 
-      if (!next.length) {
-        next = $(this.$menu.find('li')[0])
-      }
-
-      next.addClass('active')
+    if (!next.length) {
+      next = $(this.$menu.find('li')[0])
     }
 
-  , prev: function (event) {
-      var active = this.$menu.find('.active').removeClass('active')
-        , prev = active.prev()
+    next.addClass('active')
+  }
 
-      if (!prev.length) {
-        prev = this.$menu.find('li').last()
-      }
+  , prev(event) {
+    var active = this.$menu.find('.active').removeClass('active');
+    var prev = active.prev();
 
-      prev.addClass('active')
+    if (!prev.length) {
+      prev = this.$menu.find('li').last()
     }
 
-  , listen: function () {
+    prev.addClass('active')
+  }
+
+  , listen() {
       this.$element
         .on('focus',    $.proxy(this.focus, this))
         .on('blur',     $.proxy(this.blur, this))
@@ -187,7 +183,7 @@
         .on('mouseleave', 'li', $.proxy(this.mouseleave, this))
     }
 
-  , eventSupported: function(eventName) {
+  , eventSupported(eventName) {
       var isSupported = eventName in this.$element
       if (!isSupported) {
         this.$element.setAttribute(eventName, 'return;')
@@ -196,7 +192,7 @@
       return isSupported
     }
 
-  , move: function (e) {
+  , move(e) {
       if (!this.shown) return
 
       switch(e.keyCode) {
@@ -220,17 +216,17 @@
       e.stopPropagation()
     }
 
-  , keydown: function (e) {
+  , keydown(e) {
       this.suppressKeyPressRepeat = ~$.inArray(e.keyCode, [40,38,9,13,27])
       this.move(e)
     }
 
-  , keypress: function (e) {
+  , keypress(e) {
       if (this.suppressKeyPressRepeat) return
       this.move(e)
     }
 
-  , keyup: function (e) {
+  , keyup(e) {
       switch(e.keyCode) {
         case 40: // down arrow
         case 38: // up arrow
@@ -258,29 +254,29 @@
       e.preventDefault()
   }
 
-  , focus: function (e) {
+  , focus(e) {
       this.focused = true
     }
 
-  , blur: function (e) {
+  , blur(e) {
       this.focused = false
       if (!this.mousedover && this.shown) this.hide()
     }
 
-  , click: function (e) {
+  , click(e) {
       e.stopPropagation()
       e.preventDefault()
       this.select()
       this.$element.focus()
     }
 
-  , mouseenter: function (e) {
+  , mouseenter(e) {
       this.mousedover = true
       this.$menu.find('.active').removeClass('active')
       $(e.currentTarget).addClass('active')
     }
 
-  , mouseleave: function (e) {
+  , mouseleave(e) {
       this.mousedover = false
       if (!this.focused && this.shown) this.hide()
     }
@@ -295,12 +291,12 @@
 
   $.fn.typeahead = function (option) {
     return this.each(function () {
-      var $this = $(this)
-        , data = $this.data('typeahead')
-        , options = typeof option == 'object' && option
+      var $this = $(this);
+      var data = $this.data('typeahead');
+      var options = typeof option == 'object' && option;
       if (!data) $this.data('typeahead', (data = new Typeahead(this, options)))
       if (typeof option == 'string') data[option]()
-    })
+    });
   }
 
   $.fn.typeahead.defaults = {
@@ -332,4 +328,4 @@
     $this.typeahead($this.data())
   })
 
-}(window.jQuery);
+})(window.jQuery);

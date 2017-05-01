@@ -8,7 +8,7 @@
 
 // http://snook.ca/archives/html_and_css/font-size-with-rem
 
-Modernizr.addTest('cssremunit', function(){
+Modernizr.addTest('cssremunit', () => {
 
   var div = document.createElement('div');
   try {

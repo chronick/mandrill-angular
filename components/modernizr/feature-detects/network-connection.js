@@ -12,7 +12,7 @@
 // unknown devices are assumed as fast
 // for more rigorous network testing, consider boomerang.js: github.com/bluesmoon/boomerang/
 
-Modernizr.addTest('lowbandwidth', function() {
+Modernizr.addTest('lowbandwidth', () => {
 
   var connection = navigator.connection || { type: 0 }; // polyfill
 

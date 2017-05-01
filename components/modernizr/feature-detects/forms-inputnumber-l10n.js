@@ -5,18 +5,18 @@
 // // Based on http://trac.webkit.org/browser/trunk/LayoutTests/fast/forms/script-tests/input-number-keyoperation.js?rev=80096#L9
 // // By Peter Janes
 
-Modernizr.addTest('localizedNumber', function() {
-    var doc = document,
-        el = document.createElement('div'),
-        fake,
-        root,
-        input,
-        diff;
-    root = doc.body || (function() {
+Modernizr.addTest('localizedNumber', () => {
+    var doc = document;
+    var el = document.createElement('div');
+    var fake;
+    var root;
+    var input;
+    var diff;
+    root = doc.body || ((() => {
         var de = doc.documentElement;
         fake = true;
         return de.insertBefore(doc.createElement('body'), de.firstElementChild || de.firstChild);
-    }());
+    })());
     el.innerHTML = '<input type="number" value="1.0" step="0.1"/>';
     input = el.childNodes[0];
     root.appendChild(el);

@@ -3,14 +3,13 @@
 //
 // by @alrra
 
-Modernizr.addTest('ruby', function () {
-
-    var ruby = document.createElement('ruby'),
-        rt = document.createElement('rt'),
-        rp = document.createElement('rp'),
-        docElement = document.documentElement,
-        displayStyleProperty = 'display',
-        fontSizeStyleProperty = 'fontSize'; // 'fontSize' - because it`s only used for IE6 and IE7
+Modernizr.addTest('ruby', () => {
+    var ruby = document.createElement('ruby'); // 'fontSize' - because it`s only used for IE6 and IE7
+    var rt = document.createElement('rt');
+    var rp = document.createElement('rp');
+    var docElement = document.documentElement;
+    var displayStyleProperty = 'display';
+    var fontSizeStyleProperty = 'fontSize';
 
     ruby.appendChild(rp);
     ruby.appendChild(rt);
@@ -49,5 +48,4 @@ Modernizr.addTest('ruby', function () {
         rt = null;
         rp = null;
     }
-
 });

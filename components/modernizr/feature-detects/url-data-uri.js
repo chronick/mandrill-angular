@@ -9,18 +9,18 @@
 // To avoid that you can create a new iframe and inject this.. perhaps..
 
 
-(function(){
+((() => {
 
   var datauri = new Image();
 
 
-  datauri.onerror = function() {
-      Modernizr.addTest('datauri', function () { return false; });
+  datauri.onerror = () => {
+      Modernizr.addTest('datauri', () => false);
   };  
-  datauri.onload = function() {
-      Modernizr.addTest('datauri', function () { return (datauri.width == 1 && datauri.height == 1); });
+  datauri.onload = () => {
+      Modernizr.addTest('datauri', () => datauri.width == 1 && datauri.height == 1);
   };
 
   datauri.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
 
-})();
+}))();

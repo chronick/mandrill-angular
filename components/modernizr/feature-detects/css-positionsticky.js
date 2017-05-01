@@ -1,6 +1,6 @@
 // Sticky positioning - constrains an element to be positioned inside the
 // intersection of its container box, and the viewport.
-Modernizr.addTest('csspositionsticky', function () {
+Modernizr.addTest('csspositionsticky', () => {
 
     var prop = 'position:';
     var value = 'sticky';

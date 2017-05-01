@@ -18,7 +18,7 @@
  * ========================================================== */
 
 
-!function ($) {
+!($ => {
 
   "use strict"; // jshint ;_;
 
@@ -38,14 +38,14 @@
   Affix.prototype.checkPosition = function () {
     if (!this.$element.is(':visible')) return
 
-    var scrollHeight = $(document).height()
-      , scrollTop = this.$window.scrollTop()
-      , position = this.$element.offset()
-      , offset = this.options.offset
-      , offsetBottom = offset.bottom
-      , offsetTop = offset.top
-      , reset = 'affix affix-top affix-bottom'
-      , affix
+    var scrollHeight = $(document).height();
+    var scrollTop = this.$window.scrollTop();
+    var position = this.$element.offset();
+    var offset = this.options.offset;
+    var offsetBottom = offset.bottom;
+    var offsetTop = offset.top;
+    var reset = 'affix affix-top affix-bottom';
+    var affix;
 
     if (typeof offset != 'object') offsetBottom = offsetTop = offset
     if (typeof offsetTop == 'function') offsetTop = offset.top()
@@ -72,12 +72,12 @@
 
   $.fn.affix = function (option) {
     return this.each(function () {
-      var $this = $(this)
-        , data = $this.data('affix')
-        , options = typeof option == 'object' && option
+      var $this = $(this);
+      var data = $this.data('affix');
+      var options = typeof option == 'object' && option;
       if (!data) $this.data('affix', (data = new Affix(this, options)))
       if (typeof option == 'string') data[option]()
-    })
+    });
   }
 
   $.fn.affix.Constructor = Affix
@@ -99,10 +99,10 @@
  /* AFFIX DATA-API
   * ============== */
 
-  $(window).on('load', function () {
+  $(window).on('load', () => {
     $('[data-spy="affix"]').each(function () {
-      var $spy = $(this)
-        , data = $spy.data()
+      var $spy = $(this);
+      var data = $spy.data();
 
       data.offset = data.offset || {}
 
@@ -114,4 +114,4 @@
   })
 
 
-}(window.jQuery);
+})(window.jQuery);

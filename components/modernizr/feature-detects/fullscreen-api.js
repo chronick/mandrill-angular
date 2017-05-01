@@ -1,4 +1,4 @@
-Modernizr.addTest('fullscreen',function(){
+Modernizr.addTest('fullscreen',() => {
      for(var i = 0; i < Modernizr._domPrefixes.length; i++) {
         if( document[Modernizr._domPrefixes[i].toLowerCase() + 'CancelFullScreen'])
             return true;

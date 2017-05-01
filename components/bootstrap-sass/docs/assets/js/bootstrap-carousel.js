@@ -18,7 +18,7 @@
  * ========================================================== */
 
 
-!function ($) {
+!($ => {
 
   "use strict"; // jshint ;_;
 
@@ -37,7 +37,7 @@
 
   Carousel.prototype = {
 
-    cycle: function (e) {
+    cycle(e) {
       if (!e) this.paused = false
       if (this.interval) clearInterval(this.interval);
       this.options.interval
@@ -46,32 +46,32 @@
       return this
     }
 
-  , getActiveIndex: function () {
+  , getActiveIndex() {
       this.$active = this.$element.find('.item.active')
       this.$items = this.$active.parent().children()
       return this.$items.index(this.$active)
     }
 
-  , to: function (pos) {
-      var activeIndex = this.getActiveIndex()
-        , that = this
+  , to(pos) {
+    var activeIndex = this.getActiveIndex();
+    var that = this;
 
-      if (pos > (this.$items.length - 1) || pos < 0) return
+    if (pos > (this.$items.length - 1) || pos < 0) return
 
-      if (this.sliding) {
-        return this.$element.one('slid', function () {
-          that.to(pos)
-        })
-      }
-
-      if (activeIndex == pos) {
-        return this.pause().cycle()
-      }
-
-      return this.slide(pos > activeIndex ? 'next' : 'prev', $(this.$items[pos]))
+    if (this.sliding) {
+      return this.$element.one('slid', () => {
+        that.to(pos)
+      });
     }
 
-  , pause: function (e) {
+    if (activeIndex == pos) {
+      return this.pause().cycle()
+    }
+
+    return this.slide(pos > activeIndex ? 'next' : 'prev', $(this.$items[pos]))
+  }
+
+  , pause(e) {
       if (!e) this.paused = true
       if (this.$element.find('.next, .prev').length && $.support.transition.end) {
         this.$element.trigger($.support.transition.end)
@@ -82,72 +82,72 @@
       return this
     }
 
-  , next: function () {
+  , next() {
       if (this.sliding) return
       return this.slide('next')
     }
 
-  , prev: function () {
+  , prev() {
       if (this.sliding) return
       return this.slide('prev')
     }
 
-  , slide: function (type, next) {
-      var $active = this.$element.find('.item.active')
-        , $next = next || $active[type]()
-        , isCycling = this.interval
-        , direction = type == 'next' ? 'left' : 'right'
-        , fallback  = type == 'next' ? 'first' : 'last'
-        , that = this
-        , e
+  , slide(type, next) {
+    var $active = this.$element.find('.item.active');
+    var $next = next || $active[type]();
+    var isCycling = this.interval;
+    var direction = type == 'next' ? 'left' : 'right';
+    var fallback  = type == 'next' ? 'first' : 'last';
+    var that = this;
+    var e;
 
-      this.sliding = true
+    this.sliding = true
 
-      isCycling && this.pause()
+    isCycling && this.pause()
 
-      $next = $next.length ? $next : this.$element.find('.item')[fallback]()
+    $next = $next.length ? $next : this.$element.find('.item')[fallback]()
 
-      e = $.Event('slide', {
-        relatedTarget: $next[0]
-      , direction: direction
+    e = $.Event('slide', {
+      relatedTarget: $next[0]
+    , direction
+    })
+
+    if ($next.hasClass('active')) return
+
+    if (this.$indicators.length) {
+      this.$indicators.find('.active').removeClass('active')
+      this.$element.one('slid', () => {
+        var $nextIndicator = $(that.$indicators.children()[that.getActiveIndex()])
+        $nextIndicator && $nextIndicator.addClass('active')
       })
-
-      if ($next.hasClass('active')) return
-
-      if (this.$indicators.length) {
-        this.$indicators.find('.active').removeClass('active')
-        this.$element.one('slid', function () {
-          var $nextIndicator = $(that.$indicators.children()[that.getActiveIndex()])
-          $nextIndicator && $nextIndicator.addClass('active')
-        })
-      }
-
-      if ($.support.transition && this.$element.hasClass('slide')) {
-        this.$element.trigger(e)
-        if (e.isDefaultPrevented()) return
-        $next.addClass(type)
-        $next[0].offsetWidth // force reflow
-        $active.addClass(direction)
-        $next.addClass(direction)
-        this.$element.one($.support.transition.end, function () {
-          $next.removeClass([type, direction].join(' ')).addClass('active')
-          $active.removeClass(['active', direction].join(' '))
-          that.sliding = false
-          setTimeout(function () { that.$element.trigger('slid') }, 0)
-        })
-      } else {
-        this.$element.trigger(e)
-        if (e.isDefaultPrevented()) return
-        $active.removeClass('active')
-        $next.addClass('active')
-        this.sliding = false
-        this.$element.trigger('slid')
-      }
-
-      isCycling && this.cycle()
-
-      return this
     }
+
+    if ($.support.transition && this.$element.hasClass('slide')) {
+      this.$element.trigger(e)
+      if (e.isDefaultPrevented()) return
+      $next.addClass(type)
+      $next[0].offsetWidth // force reflow
+      $active.addClass(direction)
+      $next.addClass(direction)
+      this.$element.one($.support.transition.end, () => {
+        $next.removeClass([type, direction].join(' ')).addClass('active')
+        $active.removeClass(['active', direction].join(' '))
+        that.sliding = false
+        setTimeout(() => { that.$element.trigger('slid') }, 0)
+      })
+    } else {
+      this.$element.trigger(e)
+      if (e.isDefaultPrevented()) return
+      $active.removeClass('active')
+      $next.addClass('active')
+      this.sliding = false
+      this.$element.trigger('slid')
+    }
+
+    isCycling && this.cycle()
+
+    return this
+  }
 
   }
 
@@ -159,15 +159,15 @@
 
   $.fn.carousel = function (option) {
     return this.each(function () {
-      var $this = $(this)
-        , data = $this.data('carousel')
-        , options = $.extend({}, $.fn.carousel.defaults, typeof option == 'object' && option)
-        , action = typeof option == 'string' ? option : options.slide
+      var $this = $(this);
+      var data = $this.data('carousel');
+      var options = $.extend({}, $.fn.carousel.defaults, typeof option == 'object' && option);
+      var action = typeof option == 'string' ? option : options.slide;
       if (!data) $this.data('carousel', (data = new Carousel(this, options)))
       if (typeof option == 'number') data.to(option)
       else if (action) data[action]()
       else if (options.interval) data.pause().cycle()
-    })
+    });
   }
 
   $.fn.carousel.defaults = {
@@ -190,10 +190,14 @@
   * ================= */
 
   $(document).on('click.carousel.data-api', '[data-slide], [data-slide-to]', function (e) {
-    var $this = $(this), href
-      , $target = $($this.attr('data-target') || (href = $this.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '')) //strip for ie7
-      , options = $.extend({}, $target.data(), $this.data())
-      , slideIndex
+    var $this = $(this);
+    var href;
+
+    var //strip for ie7
+    $target = $($this.attr('data-target') || (href = $this.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, ''));
+
+    var options = $.extend({}, $target.data(), $this.data());
+    var slideIndex;
 
     $target.carousel(options)
 
@@ -204,4 +208,4 @@
     e.preventDefault()
   })
 
-}(window.jQuery);
+})(window.jQuery);

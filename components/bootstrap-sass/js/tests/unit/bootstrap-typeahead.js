@@ -1,22 +1,22 @@
-$(function () {
+$(() => {
 
     module("bootstrap-typeahead")
 
-      test("should provide no conflict", function () {
+      test("should provide no conflict", () => {
         var typeahead = $.fn.typeahead.noConflict()
         ok(!$.fn.typeahead, 'typeahead was set back to undefined (org value)')
         $.fn.typeahead = typeahead
       })
 
-      test("should be defined on jquery object", function () {
+      test("should be defined on jquery object", () => {
         ok($(document.body).typeahead, 'alert method is defined')
       })
 
-      test("should return element", function () {
+      test("should return element", () => {
         ok($(document.body).typeahead()[0] == document.body, 'document.body returned')
       })
 
-      test("should listen to an input", function () {
+      test("should listen to an input", () => {
         var $input = $('<input />')
         $input.typeahead()
         ok($._data($input[0], 'events').blur, 'has a blur event')
@@ -24,26 +24,27 @@ $(function () {
         ok($._data($input[0], 'events').keyup, 'has a keyup event')
       })
 
-      test("should create a menu", function () {
+      test("should create a menu", () => {
         var $input = $('<input />')
         ok($input.typeahead().data('typeahead').$menu, 'has a menu')
       })
 
-      test("should listen to the menu", function () {
-        var $input = $('<input />')
-          , $menu = $input.typeahead().data('typeahead').$menu
+      test("should listen to the menu", () => {
+        var $input = $('<input />');
+        var $menu = $input.typeahead().data('typeahead').$menu;
 
         ok($._data($menu[0], 'events').mouseover, 'has a mouseover(pseudo: mouseenter)')
         ok($._data($menu[0], 'events').click, 'has a click')
       })
 
-      test("should show menu when query entered", function () {
+      test("should show menu when query entered", () => {
         var $input = $('<input />')
             .appendTo('body')
             .typeahead({
               source: ['aa', 'ab', 'ac']
-            })
-          , typeahead = $input.data('typeahead')
+            });
+
+        var typeahead = $input.data('typeahead');
 
         $input.val('a')
         typeahead.lookup()
@@ -56,13 +57,14 @@ $(function () {
         typeahead.$menu.remove()
       })
 
-      test("should accept data source via synchronous function", function () {
+      test("should accept data source via synchronous function", () => {
         var $input = $('<input />').typeahead({
-              source: function () {
+              source() {
                 return ['aa', 'ab', 'ac']
               }
-            }).appendTo('body')
-          , typeahead = $input.data('typeahead')
+            }).appendTo('body');
+
+        var typeahead = $input.data('typeahead');
 
         $input.val('a')
         typeahead.lookup()
@@ -75,13 +77,14 @@ $(function () {
         typeahead.$menu.remove()
       })
 
-      test("should accept data source via asynchronous function", function () {
+      test("should accept data source via asynchronous function", () => {
         var $input = $('<input />').typeahead({
-              source: function (query, process) {
+              source(query, process) {
                 process(['aa', 'ab', 'ac'])
               }
-            }).appendTo('body')
-          , typeahead = $input.data('typeahead')
+            }).appendTo('body');
+
+        var typeahead = $input.data('typeahead');
 
         $input.val('a')
         typeahead.lookup()
@@ -94,11 +97,12 @@ $(function () {
         typeahead.$menu.remove()
       })
 
-      test("should not explode when regex chars are entered", function () {
+      test("should not explode when regex chars are entered", () => {
         var $input = $('<input />').typeahead({
               source: ['aa', 'ab', 'ac', 'mdo*', 'fat+']
-            }).appendTo('body')
-          , typeahead = $input.data('typeahead')
+            }).appendTo('body');
+
+        var typeahead = $input.data('typeahead');
 
         $input.val('+')
         typeahead.lookup()
@@ -111,12 +115,14 @@ $(function () {
         typeahead.$menu.remove()
       })
 
-      test("should hide menu when query entered", function () {
+      test("should hide menu when query entered", () => {
         stop()
+
         var $input = $('<input />').typeahead({
               source: ['aa', 'ab', 'ac']
-            }).appendTo('body')
-          , typeahead = $input.data('typeahead')
+            }).appendTo('body');
+
+        var typeahead = $input.data('typeahead');
 
         $input.val('a')
         typeahead.lookup()
@@ -127,7 +133,7 @@ $(function () {
 
         $input.blur()
 
-        setTimeout(function () {
+        setTimeout(() => {
           ok(!typeahead.$menu.is(":visible"), "typeahead is no longer visible")
           start()
         }, 200)
@@ -136,11 +142,12 @@ $(function () {
         typeahead.$menu.remove()
       })
 
-      test("should set next item when down arrow is pressed", function () {
+      test("should set next item when down arrow is pressed", () => {
         var $input = $('<input />').typeahead({
               source: ['aa', 'ab', 'ac']
-            }).appendTo('body')
-          , typeahead = $input.data('typeahead')
+            }).appendTo('body');
+
+        var typeahead = $input.data('typeahead');
 
         $input.val('a')
         typeahead.lookup()
@@ -186,21 +193,22 @@ $(function () {
       })
 
 
-      test("should set input value to selected item", function () {
+      test("should set input value to selected item", () => {
         var $input = $('<input />').typeahead({
               source: ['aa', 'ab', 'ac']
-            }).appendTo('body')
-          , typeahead = $input.data('typeahead')
-          , changed = false
-          , focus = false
-          , blur = false
+            }).appendTo('body');
+
+        var typeahead = $input.data('typeahead');
+        var changed = false;
+        var focus = false;
+        var blur = false;
 
         $input.val('a')
         typeahead.lookup()
 
-        $input.change(function() { changed = true });
-        $input.focus(function() { focus = true; blur = false });
-        $input.blur(function() { blur = true; focus = false });
+        $input.change(() => { changed = true });
+        $input.focus(() => { focus = true; blur = false });
+        $input.blur(() => { blur = true; focus = false });
 
         $(typeahead.$menu.find('li')[2]).mouseover().click()
 
@@ -213,12 +221,13 @@ $(function () {
         typeahead.$menu.remove()
       })
 
-      test("should start querying when minLength is met", function () {
+      test("should start querying when minLength is met", () => {
         var $input = $('<input />').typeahead({
               source: ['aaaa', 'aaab', 'aaac'],
               minLength: 3
-            }).appendTo('body')
-          , typeahead = $input.data('typeahead')
+            }).appendTo('body');
+
+        var typeahead = $input.data('typeahead');
 
         $input.val('aa')
         typeahead.lookup()

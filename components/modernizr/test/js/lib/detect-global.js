@@ -2,7 +2,7 @@
 
 // tweaked to run without a UI.
 
-(function () {
+((() => {
     function getPropertyDescriptors(object) {
       var props = { };
       for (var prop in object) {
@@ -66,7 +66,7 @@
       elCancel.href = '#';
       elCancel.innerHTML = 'Cancel';
       elCancel.style.cssText = 'color:#eee;margin-left:0.5em;';
-      elCancel.onclick = function() {
+      elCancel.onclick = () => {
         el.parentNode.removeChild(el);
         return false; 
       };
@@ -110,10 +110,10 @@
     }
     
     function analyze() {
-      var global = (function(){ return this; })(),
-          globalProps = getPropertyDescriptors(global),
-          cleanWindow = getCleanWindow();
-          
+      var global = (function(){ return this; })();
+      var globalProps = getPropertyDescriptors(global);
+      var cleanWindow = getCleanWindow();
+
       for (var prop in cleanWindow) {
         if (globalProps[prop]) {
           delete globalProps[prop];
@@ -124,10 +124,10 @@
           delete globalProps[prop];
         }
       }
-      
+
       window.__globalsCount = getPropsCount(globalProps);
       window.__globals      = globalProps;
-      
+
       window.console && console.log('Total number of global properties: ' + __globalsCount);
       window.console && console.dir(__globals);
     }
@@ -150,4 +150,4 @@
     
     analyze(); // and assign total added globals to window.__globalsCount
     
-})();
+}))();

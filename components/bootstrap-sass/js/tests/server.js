@@ -3,10 +3,12 @@
  * Adapted from Modernizr
  */
 
-var connect = require('connect')
-  , http = require('http')
-  , fs   = require('fs')
-  , app = connect()
+var connect = require('connect');
+
+var http = require('http');
+var fs   = require('fs');
+
+var app = connect()
       .use(connect.static(__dirname + '/../../'));
 
 http.createServer(app).listen(3000);
